@@ -1,0 +1,21 @@
+<start-app (transferUser)='onTransferUser($event)'></start-app>
+<div class="col-lg-offset-5">
+  <h1>Snakes</h1>
+</div> 
+<div class='row'>  
+  <map (increaseScore)='increaseScore($event)'></map>
+  <div class="col-lg-4 col-md-4">
+  <div id="information">
+    <p>Your score: {{score}}</p>
+    <h2>You are logged in as {{user.name}}</h2>
+  </div>
+    <div id="chat">
+      <ul id="messages"> 
+      </ul>
+      <div id="messages-input">
+        <input type="text" id="input" class="form-control" placeholder="Text input">  
+        <button type="button" id="btn-input" class="btn btn-primary">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div> 
