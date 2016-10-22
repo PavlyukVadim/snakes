@@ -31,41 +31,38 @@ var MapComponent = (function () {
     MapComponent.prototype.start = function () {
         var _this = this;
         this.drawWall();
-        this.snake = new snake_1.Snake(100, 100, 2, 150, this.ctx);
+        this.snake = new snake_1.Snake(100, 100, 2, 150, this.ctx, this.ws);
         this.snakeControl = new snakes_control_1.SnakesControl(this.ctx);
         setInterval(function () {
-            _this.checkСollision();
-        }, 20);
+            _this.findCollisions();
+        }, 50);
         setInterval(function (that) {
             that.food.push(new food_1.Food(that.cWidth, that.cHeight, 20, that.ctx));
             that.food[that.food.length - 1].draw(that.ctxf);
         }, 1000, this);
-        setInterval(function (that, snake) {
-            that.findFoodCollision(snake);
-        }, 40, this, this.snake);
         this.snake.draw();
         this.snake.start({
             THICNESS_WALL: THICNESS_WALL,
             mapW: this.cWidth,
             mapH: this.cHeight
         });
-        setInterval(function (that, snake) {
-            that.ws.send(JSON.stringify({
+        setInterval(function () {
+            _this.ws.send(JSON.stringify({
                 type: 'draw',
-                x: snake.x,
-                y: snake.y,
-                COLOR: snake.COLOR
+                x: _this.snake.x,
+                y: _this.snake.y,
+                COLOR: _this.snake.COLOR
             }));
-        }, 20, this, this.snake);
+        }, 50);
         this.ws.onmessage = function (event) {
             var change = JSON.parse(event.data);
+            change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || _this.snake.PIECE_SNAKE_RADIUS;
             if (change.type == 'draw') {
-                change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || _this.snake.PIECE_SNAKE_RADIUS;
                 _this.snakeControl.drawAll(change);
             }
             if (change.type == 'clean') {
+                _this.snakeControl.clean(change);
             }
-            //console.log(change);
         };
         document.addEventListener('keydown', function (e) {
             if (e.which == 37) {
@@ -76,19 +73,29 @@ var MapComponent = (function () {
             }
         });
     };
-    MapComponent.prototype.findFoodCollision = function (snake) {
+    MapComponent.prototype.drawWall = function () {
+        this.ctx.strokeStyle = "#f00";
+        this.ctx.setLineDash([5, 15]);
+        this.ctx.strokeRect(0 + THICNESS_WALL, 0 + THICNESS_WALL, this.cWidth - 2 * THICNESS_WALL, this.cHeight - 2 * THICNESS_WALL);
+        this.ctx.stroke();
+    };
+    MapComponent.prototype.findCollisions = function () {
+        this.findFoodCollision();
+        this.findSnakeСollision();
+    };
+    MapComponent.prototype.findFoodCollision = function () {
         for (var _i = 0, _a = this.food; _i < _a.length; _i++) {
             var part = _a[_i];
-            if (snake.x > part.x - 10 && snake.x < part.x + 10 &&
-                snake.y > part.y - 10 && snake.y < part.y + 10) {
+            if (this.snake.x > part.x - 10 && this.snake.x < part.x + 10 &&
+                this.snake.y > part.y - 10 && this.snake.y < part.y + 10) {
                 part.destroy(this.ctxf);
                 this.food.splice(this.food.indexOf(part), 1);
-                snake.length += 0.2;
+                this.snake.length += 0.2;
                 this.increaseScore.emit(1);
             }
         }
     };
-    MapComponent.prototype.checkСollision = function () {
+    MapComponent.prototype.findSnakeСollision = function () {
         var clipWidth = 10;
         var clipOffsetX = 12 * Math.cos(this.snake.convertDegInRad(this.snake.angle)), clipOffsetY = 12 * Math.sin(this.snake.convertDegInRad(this.snake.angle));
         var imageData = this.ctx.getImageData(-this.snake.PIECE_SNAKE_RADIUS + this.snake.x + clipOffsetX + 3 * Math.cos(this.snake.convertDegInRad(this.snake.angle)), -this.snake.PIECE_SNAKE_RADIUS + this.snake.y + clipOffsetY + 3 * Math.sin(this.snake.convertDegInRad(this.snake.angle)), clipWidth, clipWidth);
@@ -101,11 +108,16 @@ var MapComponent = (function () {
             }
         }
     };
-    MapComponent.prototype.drawWall = function () {
-        this.ctx.strokeStyle = "#f00";
-        this.ctx.setLineDash([5, 15]);
-        this.ctx.strokeRect(0 + THICNESS_WALL, 0 + THICNESS_WALL, this.cWidth - 2 * THICNESS_WALL, this.cHeight - 2 * THICNESS_WALL);
-        this.ctx.stroke();
+    MapComponent.prototype.snakeLengthControl = function () {
+        /*if (this.snake.coordinates.x.length >= this.snake.length) {
+          this.ws.send(JSON.stringify({
+                type : 'clean',
+                x: this.snake.coordinates.x[0],
+                y: this.snake.coordinates.y[0]
+              }));
+              this.snake.coordinates.x.shift();
+          this.snake.coordinates.y.shift();
+        }*/
     };
     __decorate([
         core_1.ViewChild('canvas'), 

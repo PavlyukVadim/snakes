@@ -15,4 +15,13 @@ export class SnakesControl {
 		this.ctx.closePath();
 	}
 
+	clean(snake: any) {
+		this.ctx.beginPath();
+      this.ctx.clearRect(snake.x - snake.PIECE_SNAKE_RADIUS - 2,
+                         snake.y - snake.PIECE_SNAKE_RADIUS - 2,
+                         snake.PIECE_SNAKE_RADIUS * 2 + 3,
+                         snake.PIECE_SNAKE_RADIUS * 2 + 3);
+      this.ctx.closePath();
+	}
+
 }

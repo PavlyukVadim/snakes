@@ -11,6 +11,11 @@ var SnakesControl = (function () {
         this.ctx.fill();
         this.ctx.closePath();
     };
+    SnakesControl.prototype.clean = function (snake) {
+        this.ctx.beginPath();
+        this.ctx.clearRect(snake.x - snake.PIECE_SNAKE_RADIUS - 2, snake.y - snake.PIECE_SNAKE_RADIUS - 2, snake.PIECE_SNAKE_RADIUS * 2 + 3, snake.PIECE_SNAKE_RADIUS * 2 + 3);
+        this.ctx.closePath();
+    };
     return SnakesControl;
 }());
 exports.SnakesControl = SnakesControl;

@@ -53,14 +53,14 @@ ws.on('request', (req) => {
   connection.on('message', (message) => {
     let dataName = message.type + 'Data',
         data = message[dataName];
-    if(data.x) {
-      sendSnakeData(data);
-    }
-    else {
+    //if(data.type) {
+      sendSnakeData(data, connection);
+    //}
+    /*else {
       clients.forEach((client) => {
         client.send(data, connection);
       }); 
-    }
+    }*/
   });
   connection.on('close', (reasonCode, description) => {
     console.log('Disconnected ' + connection.remoteAddress);

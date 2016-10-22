@@ -1,11 +1,12 @@
 "use strict";
 var Snake = (function () {
-    function Snake(x, y, angle, length, ctx) {
+    function Snake(x, y, angle, length, ctx, ws) {
         this.INITIAL_LENGTH = 150;
         this.PIECE_SNAKE_RADIUS = 5.3;
         this.SPEED = 2;
         this.ROTATION_SPEED = 5;
         this.COLOR = '#ff5050';
+        this.ws = ws;
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -25,10 +26,10 @@ var Snake = (function () {
         this.ctx.closePath();
     };
     Snake.prototype.start = function (canvasSetting) {
-        this.interval = setInterval(this.running, 50, canvasSetting, this);
+        this.interval = setInterval(this.running, 30, canvasSetting, this);
     };
     Snake.prototype.running = function (cSetting, that) {
-        var radian = (that.angle * Math.PI) / 180;
+        var radian = that.convertDegInRad(that.angle);
         that.x += that.SPEED * Math.cos(radian);
         that.y += that.SPEED * Math.sin(radian);
         that.validationCoordinates(cSetting);
@@ -44,8 +45,13 @@ var Snake = (function () {
         if (this.coordinates.x.length > this.length) {
             //for (var i = 0; i < this.coordinates.x.length - this.length; i++) {
             this.ctx.beginPath();
-            this.ctx.clearRect(this.coordinates.x[0] - this.PIECE_SNAKE_RADIUS - 2, this.coordinates.y[0] - this.PIECE_SNAKE_RADIUS - 2, this.PIECE_SNAKE_RADIUS * 2 + 3, this.PIECE_SNAKE_RADIUS * 2 + 3);
+            this.ctx.clearRect(this.coordinates.x[0] - this.PIECE_SNAKE_RADIUS - 3, this.coordinates.y[0] - this.PIECE_SNAKE_RADIUS - 3, this.PIECE_SNAKE_RADIUS * 2 + 4, this.PIECE_SNAKE_RADIUS * 2 + 4);
             this.ctx.closePath();
+            this.ws.send(JSON.stringify({
+                type: 'clean',
+                x: this.coordinates.x[0],
+                y: this.coordinates.y[0]
+            }));
             this.coordinates.x.shift();
             this.coordinates.y.shift();
         }
@@ -101,13 +107,20 @@ var Snake = (function () {
     }*/
     Snake.prototype.turnLeft = function () {
         this.angle -= this.ROTATION_SPEED;
-        this.move();
+        this.move(true);
     };
     Snake.prototype.turnRight = function () {
         this.angle += this.ROTATION_SPEED;
-        this.move();
+        this.move(true);
     };
-    Snake.prototype.move = function () {
+    Snake.prototype.move = function (rotate) {
+        if (rotate === void 0) { rotate = false; }
+        if (rotate) {
+            this.SPEED = 1.8;
+        }
+        else {
+            this.SPEED = 2;
+        }
         this.x += this.SPEED * Math.cos(this.convertDegInRad(this.angle));
         this.y += this.SPEED * Math.sin(this.convertDegInRad(this.angle));
         this.pushCoordinates();

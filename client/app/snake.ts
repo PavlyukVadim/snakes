@@ -18,9 +18,11 @@ export class Snake{
 	};
 
 	interval : any;
+  ws: WebSocket;
+	constructor(x: number, y: number, angle: number, length: number, ctx: any, ws: WebSocket) {
+		this.ws = ws;
 
-	constructor(x: number, y: number, angle: number, length: number, ctx: any) {
-		this.x = x;
+    this.x = x;
 		this.y = y;
 		this.angle = angle;
 		this.length = length;
@@ -42,12 +44,12 @@ export class Snake{
 
 
   start(canvasSetting: Object) {
-    this.interval = setInterval(this.running, 50, canvasSetting, this);
+    this.interval = setInterval(this.running, 30, canvasSetting, this);
   }
 
 
   running(cSetting: Object, that: any) {
-    let radian = (that.angle * Math.PI) / 180;
+    let radian = that.convertDegInRad(that.angle);
     that.x += that.SPEED * Math.cos(radian);
     that.y += that.SPEED * Math.sin(radian);
     that.validationCoordinates(cSetting);
@@ -66,10 +68,16 @@ export class Snake{
       //for (var i = 0; i < this.coordinates.x.length - this.length; i++) {
         
         this.ctx.beginPath();
-        this.ctx.clearRect(this.coordinates.x[0] - this.PIECE_SNAKE_RADIUS - 2,
-                           this.coordinates.y[0] - this.PIECE_SNAKE_RADIUS - 2,
-                           this.PIECE_SNAKE_RADIUS * 2 + 3, this.PIECE_SNAKE_RADIUS * 2 + 3);
+        this.ctx.clearRect(this.coordinates.x[0] - this.PIECE_SNAKE_RADIUS - 3,
+                           this.coordinates.y[0] - this.PIECE_SNAKE_RADIUS - 3,
+                           this.PIECE_SNAKE_RADIUS * 2 + 4, this.PIECE_SNAKE_RADIUS * 2 + 4);
         this.ctx.closePath();
+
+        this.ws.send(JSON.stringify({
+          type : 'clean',
+          x: this.coordinates.x[0],
+          y: this.coordinates.y[0]
+        }));
 
         this.coordinates.x.shift();
         this.coordinates.y.shift();
@@ -131,16 +139,23 @@ export class Snake{
 
 
   turnLeft() {
-    this.angle -= this.ROTATION_SPEED; 
-    this.move();
+    this.angle -= this.ROTATION_SPEED;
+    this.move(true);
   }
 
   turnRight() {
     this.angle += this.ROTATION_SPEED;
-    this.move();
+    this.move(true);
   }
 
-  move() {
+  move(rotate: boolean = false) {
+    if (rotate) {
+      this.SPEED = 1.8;  
+    }
+    else {
+      this.SPEED = 2;  
+    }
+    
     this.x += this.SPEED * Math.cos(this.convertDegInRad(this.angle));
     this.y += this.SPEED * Math.sin(this.convertDegInRad(this.angle));
     this.pushCoordinates();
