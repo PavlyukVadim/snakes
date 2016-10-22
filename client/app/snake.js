@@ -116,7 +116,7 @@ var Snake = (function () {
     Snake.prototype.move = function (rotate) {
         if (rotate === void 0) { rotate = false; }
         if (rotate) {
-            this.SPEED = 1.8;
+            this.SPEED = 1.6;
         }
         else {
             this.SPEED = 2;

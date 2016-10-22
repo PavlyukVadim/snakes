@@ -150,7 +150,7 @@ export class Snake{
 
   move(rotate: boolean = false) {
     if (rotate) {
-      this.SPEED = 1.8;  
+      this.SPEED = 1.6;  
     }
     else {
       this.SPEED = 2;  

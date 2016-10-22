@@ -31,7 +31,7 @@ var MapComponent = (function () {
     MapComponent.prototype.start = function () {
         var _this = this;
         this.drawWall();
-        this.snake = new snake_1.Snake(100, 100, 2, 150, this.ctx, this.ws);
+        this.snake = new snake_1.Snake(100, 100, 2, 30, this.ctx, this.ws);
         this.snakeControl = new snakes_control_1.SnakesControl(this.ctx);
         setInterval(function () {
             _this.findCollisions();

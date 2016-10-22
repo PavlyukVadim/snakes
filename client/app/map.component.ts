@@ -56,7 +56,7 @@ export class MapComponent{
 	start() {
 	
 		this.drawWall();
-		this.snake = new Snake(100, 100, 2, 150, this.ctx, this.ws);
+		this.snake = new Snake(100, 100, 2, 30, this.ctx, this.ws);
 		this.snakeControl = new SnakesControl(this.ctx);		
 
 		setInterval(() => {
