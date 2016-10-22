@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var snake_1 = require('./snake');
 var food_1 = require('./food');
+var snakes_control_1 = require('./snakes.control');
 var THICNESS_WALL = 20;
 var MapComponent = (function () {
     function MapComponent() {
@@ -18,17 +19,7 @@ var MapComponent = (function () {
         this.food = [];
     }
     MapComponent.prototype.ngAfterViewInit = function () {
-        var ws = new WebSocket("ws://127.0.0.1:8081/");
-        setInterval(function () {
-            ws.send(JSON.stringify({
-                x: 10,
-                y: 10,
-                angle: 20,
-                length: 50,
-                color: 65,
-                snakeCoord: 54
-            }));
-        }, 1000);
+        this.ws = new WebSocket("ws://127.0.0.1:8081/");
         this.canvas = this.canvasRef.nativeElement;
         this.canvasFood = this.canvasFoodRef.nativeElement;
         this.ctx = this.canvas.getContext('2d');
@@ -38,27 +29,50 @@ var MapComponent = (function () {
         this.start();
     };
     MapComponent.prototype.start = function () {
+        var _this = this;
         this.drawWall();
-        var snake = new snake_1.Snake(100, 100, 2, 150, this.ctx);
+        this.snake = new snake_1.Snake(100, 100, 2, 150, this.ctx);
+        this.snakeControl = new snakes_control_1.SnakesControl(this.ctx);
+        setInterval(function () {
+            _this.checkСollision();
+        }, 20);
         setInterval(function (that) {
             that.food.push(new food_1.Food(that.cWidth, that.cHeight, 20, that.ctx));
             that.food[that.food.length - 1].draw(that.ctxf);
         }, 1000, this);
         setInterval(function (that, snake) {
             that.findFoodCollision(snake);
-        }, 40, this, snake);
-        snake.draw();
-        snake.start({
+        }, 40, this, this.snake);
+        this.snake.draw();
+        this.snake.start({
             THICNESS_WALL: THICNESS_WALL,
             mapW: this.cWidth,
             mapH: this.cHeight
         });
-        document.addEventListener('keydown', function snakeControl(e) {
+        setInterval(function (that, snake) {
+            that.ws.send(JSON.stringify({
+                type: 'draw',
+                x: snake.x,
+                y: snake.y,
+                COLOR: snake.COLOR
+            }));
+        }, 20, this, this.snake);
+        this.ws.onmessage = function (event) {
+            var change = JSON.parse(event.data);
+            if (change.type == 'draw') {
+                change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || _this.snake.PIECE_SNAKE_RADIUS;
+                _this.snakeControl.drawAll(change);
+            }
+            if (change.type == 'clean') {
+            }
+            //console.log(change);
+        };
+        document.addEventListener('keydown', function (e) {
             if (e.which == 37) {
-                snake.turnLeft();
+                _this.snake.turnLeft();
             }
             else if (e.which == 39) {
-                snake.turnRight();
+                _this.snake.turnRight();
             }
         });
     };
@@ -71,6 +85,19 @@ var MapComponent = (function () {
                 this.food.splice(this.food.indexOf(part), 1);
                 snake.length += 0.2;
                 this.increaseScore.emit(1);
+            }
+        }
+    };
+    MapComponent.prototype.checkСollision = function () {
+        var clipWidth = 10;
+        var clipOffsetX = 12 * Math.cos(this.snake.convertDegInRad(this.snake.angle)), clipOffsetY = 12 * Math.sin(this.snake.convertDegInRad(this.snake.angle));
+        var imageData = this.ctx.getImageData(-this.snake.PIECE_SNAKE_RADIUS + this.snake.x + clipOffsetX + 3 * Math.cos(this.snake.convertDegInRad(this.snake.angle)), -this.snake.PIECE_SNAKE_RADIUS + this.snake.y + clipOffsetY + 3 * Math.sin(this.snake.convertDegInRad(this.snake.angle)), clipWidth, clipWidth);
+        for (var i = 0; i < clipWidth * clipWidth * 4; i += 4) {
+            var r = imageData.data[i + 0].toString(16).length > 1 ? imageData.data[i + 0].toString(16) : '0' + imageData.data[i + 0].toString(16), g = imageData.data[i + 1].toString(16).length > 1 ? imageData.data[i + 1].toString(16) : '0' + imageData.data[i + 1].toString(16), b = imageData.data[i + 2].toString(16).length > 1 ? imageData.data[i + 2].toString(16) : '0' + imageData.data[i + 2].toString(16);
+            var color = '#' + r + g + b;
+            if (color == this.snake.COLOR) {
+                setTimeout(clearInterval, 300, this.snake.interval);
+                break;
             }
         }
     };

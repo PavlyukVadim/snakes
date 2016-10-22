@@ -2,7 +2,7 @@
 var Snake = (function () {
     function Snake(x, y, angle, length, ctx) {
         this.INITIAL_LENGTH = 150;
-        this.PIECE_SNAKE_RADIUS = 5;
+        this.PIECE_SNAKE_RADIUS = 5.3;
         this.SPEED = 2;
         this.ROTATION_SPEED = 5;
         this.COLOR = '#ff5050';
@@ -42,13 +42,12 @@ var Snake = (function () {
     };
     Snake.prototype.snakeLengthControl = function () {
         if (this.coordinates.x.length > this.length) {
-            for (var i = 0; i < this.coordinates.x.length - this.length; i++) {
-                this.ctx.beginPath();
-                this.ctx.clearRect(this.coordinates.x[i] - this.PIECE_SNAKE_RADIUS - 2, this.coordinates.y[i] - this.PIECE_SNAKE_RADIUS - 2, this.PIECE_SNAKE_RADIUS * 2 + 3, this.PIECE_SNAKE_RADIUS * 2 + 3);
-                this.ctx.closePath();
-                this.coordinates.x.shift();
-                this.coordinates.y.shift();
-            }
+            //for (var i = 0; i < this.coordinates.x.length - this.length; i++) {
+            this.ctx.beginPath();
+            this.ctx.clearRect(this.coordinates.x[0] - this.PIECE_SNAKE_RADIUS - 2, this.coordinates.y[0] - this.PIECE_SNAKE_RADIUS - 2, this.PIECE_SNAKE_RADIUS * 2 + 3, this.PIECE_SNAKE_RADIUS * 2 + 3);
+            this.ctx.closePath();
+            this.coordinates.x.shift();
+            this.coordinates.y.shift();
         }
     };
     Snake.prototype.convertDegInRad = function (angle) {
@@ -58,31 +57,48 @@ var Snake = (function () {
         if (this.x < cSetting.THICNESS_WALL || this.x > cSetting.mapW - cSetting.THICNESS_WALL ||
             this.y < cSetting.THICNESS_WALL || this.y > cSetting.mapH - cSetting.THICNESS_WALL) {
             //finish();
+            //this.stop();
+            if (this.x < cSetting.THICNESS_WALL) {
+                this.x = cSetting.mapW - cSetting.THICNESS_WALL;
+                return;
+            }
+            else if (this.x > cSetting.mapW - cSetting.THICNESS_WALL) {
+                this.x = cSetting.THICNESS_WALL;
+                return;
+            }
             this.stop();
         }
-        this.checkСollision();
+        //this.checkСollision();
     };
-    Snake.prototype.checkСollision = function (food) {
-        if (food === void 0) { food = []; }
-        var clipWidth = 10;
-        var clipOffsetX = 12 * Math.cos(this.convertDegInRad(this.angle)), clipOffsetY = 12 * Math.sin(this.convertDegInRad(this.angle));
-        var imageData = this.ctx.getImageData(-this.PIECE_SNAKE_RADIUS + this.x + clipOffsetX, -this.PIECE_SNAKE_RADIUS + this.y + clipOffsetY, clipWidth, clipWidth);
-        // Loop through the clip and see if you find red or blue. 
-        for (var i = 0; i < clipWidth * clipWidth * 4; i += 4) {
-            var r = imageData.data[i + 0].toString(16).length > 1 ? imageData.data[i + 0].toString(16) : '0' + imageData.data[i + 0].toString(16), g = imageData.data[i + 1].toString(16).length > 1 ? imageData.data[i + 1].toString(16) : '0' + imageData.data[i + 1].toString(16), b = imageData.data[i + 2].toString(16).length > 1 ? imageData.data[i + 2].toString(16) : '0' + imageData.data[i + 2].toString(16);
-            var color = '#' + r + g + b;
-            if (color == this.COLOR) {
-                //if (!losing) {
-                setTimeout(clearInterval, 250, this.interval);
-                //losing = !losing;
-                //setTimeout(finish, 300);
-                //}
-                break;
-            }
-            else if (color != '#000000' && food.len) {
-            }
+    /*checkСollision(food: any = []) {
+      var clipWidth = 10;
+  
+      var clipOffsetX = 12 * Math.cos(this.convertDegInRad(this.angle)),
+          clipOffsetY = 12 * Math.sin(this.convertDegInRad(this.angle));
+      var imageData = this.ctx.getImageData(-this.PIECE_SNAKE_RADIUS + this.x + clipOffsetX + 50 * Math.cos(this.convertDegInRad(this.angle)),
+                                       -this.PIECE_SNAKE_RADIUS + this.y + clipOffsetY + 50 * Math.sin(this.convertDegInRad(this.angle)),
+                                       clipWidth, clipWidth);
+      this.ctx.fillStyle = '#000';
+      this.ctx.fillRect(-this.PIECE_SNAKE_RADIUS + this.x + clipOffsetX + 50 * Math.cos(this.convertDegInRad(this.angle)),
+                                       -this.PIECE_SNAKE_RADIUS + this.y + clipOffsetY + 50 * Math.sin(this.convertDegInRad(this.angle)),
+                                       clipWidth, clipWidth);
+      // Loop through the clip and see if you find red or blue.
+      for (let i = 0; i < clipWidth * clipWidth * 4; i += 4) {
+        let r = imageData.data[i + 0].toString(16).length > 1 ? imageData.data[i + 0].toString(16) : '0' + imageData.data[i + 0].toString(16),
+            g = imageData.data[i + 1].toString(16).length > 1 ? imageData.data[i + 1].toString(16) : '0' + imageData.data[i + 1].toString(16),
+            b = imageData.data[i + 2].toString(16).length > 1 ? imageData.data[i + 2].toString(16) : '0' + imageData.data[i + 2].toString(16);
+        let color: string = '#' + r + g + b;
+  
+        if (color == this.COLOR) {
+          //if (!losing) {
+            setTimeout(clearInterval, 250, this.interval);
+            //losing = !losing;
+            //setTimeout(finish, 300);
+          //}
+          break;
         }
-    };
+      }
+    }*/
     Snake.prototype.turnLeft = function () {
         this.angle -= this.ROTATION_SPEED;
         this.move();

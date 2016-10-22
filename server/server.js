@@ -53,7 +53,6 @@ ws.on('request', (req) => {
   connection.on('message', (message) => {
     let dataName = message.type + 'Data',
         data = message[dataName];
-    console.log('Received: ' + data);
     if(data.x) {
       sendSnakeData(data);
     }

@@ -1,7 +1,7 @@
 export class Snake{
 
 	INITIAL_LENGTH: number = 150;
-  PIECE_SNAKE_RADIUS: number = 5;
+  PIECE_SNAKE_RADIUS: number = 5.3;
   SPEED: number = 2;
   ROTATION_SPEED: number = 5;
   COLOR: string = '#ff5050';
@@ -40,6 +40,7 @@ export class Snake{
     this.ctx.closePath();
   }
 
+
   start(canvasSetting: Object) {
     this.interval = setInterval(this.running, 50, canvasSetting, this);
   }
@@ -62,17 +63,17 @@ export class Snake{
 
   snakeLengthControl() {
     if (this.coordinates.x.length > this.length) {
-      for (var i = 0; i < this.coordinates.x.length - this.length; i++) {
+      //for (var i = 0; i < this.coordinates.x.length - this.length; i++) {
         
         this.ctx.beginPath();
-        this.ctx.clearRect(this.coordinates.x[i] - this.PIECE_SNAKE_RADIUS - 2,
-                           this.coordinates.y[i] - this.PIECE_SNAKE_RADIUS - 2,
+        this.ctx.clearRect(this.coordinates.x[0] - this.PIECE_SNAKE_RADIUS - 2,
+                           this.coordinates.y[0] - this.PIECE_SNAKE_RADIUS - 2,
                            this.PIECE_SNAKE_RADIUS * 2 + 3, this.PIECE_SNAKE_RADIUS * 2 + 3);
         this.ctx.closePath();
 
         this.coordinates.x.shift();
         this.coordinates.y.shift();
-      }
+      //}
     }
   }
 
@@ -84,20 +85,32 @@ export class Snake{
     if(this.x < cSetting.THICNESS_WALL || this.x > cSetting.mapW - cSetting.THICNESS_WALL || 
        this.y < cSetting.THICNESS_WALL || this.y > cSetting.mapH - cSetting.THICNESS_WALL) {
       //finish();
-      this.stop();
+      //this.stop();
+       if (this.x < cSetting.THICNESS_WALL) {
+         this.x = cSetting.mapW - cSetting.THICNESS_WALL;
+         return;
+       }
+       else if (this.x > cSetting.mapW - cSetting.THICNESS_WALL) {
+         this.x = cSetting.THICNESS_WALL;
+         return;
+       }
+       this.stop();
     }
-    this.checkСollision();
+    //this.checkСollision();
   }
 
-  checkСollision(food: any = []) {
+  /*checkСollision(food: any = []) {
     var clipWidth = 10;
 
     var clipOffsetX = 12 * Math.cos(this.convertDegInRad(this.angle)),
         clipOffsetY = 12 * Math.sin(this.convertDegInRad(this.angle));
-    var imageData = this.ctx.getImageData(-this.PIECE_SNAKE_RADIUS + this.x + clipOffsetX,
-                                     -this.PIECE_SNAKE_RADIUS + this.y + clipOffsetY,
+    var imageData = this.ctx.getImageData(-this.PIECE_SNAKE_RADIUS + this.x + clipOffsetX + 50 * Math.cos(this.convertDegInRad(this.angle)),
+                                     -this.PIECE_SNAKE_RADIUS + this.y + clipOffsetY + 50 * Math.sin(this.convertDegInRad(this.angle)),
                                      clipWidth, clipWidth);
-
+    this.ctx.fillStyle = '#000';
+    this.ctx.fillRect(-this.PIECE_SNAKE_RADIUS + this.x + clipOffsetX + 50 * Math.cos(this.convertDegInRad(this.angle)),
+                                     -this.PIECE_SNAKE_RADIUS + this.y + clipOffsetY + 50 * Math.sin(this.convertDegInRad(this.angle)),
+                                     clipWidth, clipWidth);
     // Loop through the clip and see if you find red or blue. 
     for (let i = 0; i < clipWidth * clipWidth * 4; i += 4) {
       let r = imageData.data[i + 0].toString(16).length > 1 ? imageData.data[i + 0].toString(16) : '0' + imageData.data[i + 0].toString(16),
@@ -113,12 +126,8 @@ export class Snake{
         //}
         break;
       }
-      else if(color != '#000000' && food.len){
-        //this.findFoodCollision(food);
-        //console.log(color);
-      }
     }
-  }
+  }*/
 
 
   turnLeft() {
@@ -135,7 +144,6 @@ export class Snake{
     this.x += this.SPEED * Math.cos(this.convertDegInRad(this.angle));
     this.y += this.SPEED * Math.sin(this.convertDegInRad(this.angle));
     this.pushCoordinates();
-
     this.draw();
   }
 
