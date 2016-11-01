@@ -16,6 +16,13 @@ var SnakesControl = (function () {
         this.ctx.clearRect(snake.x - snake.PIECE_SNAKE_RADIUS - 2, snake.y - snake.PIECE_SNAKE_RADIUS - 2, snake.PIECE_SNAKE_RADIUS * 2 + 3, snake.PIECE_SNAKE_RADIUS * 2 + 3);
         this.ctx.closePath();
     };
+    SnakesControl.prototype.destroyFood = function (ctx, x, y, RADIUS) {
+        ctx.beginPath();
+        ctx.fillStyle = '#fff';
+        ctx.arc(x - 1, y - 1, RADIUS + 2, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.closePath();
+    };
     return SnakesControl;
 }());
 exports.SnakesControl = SnakesControl;

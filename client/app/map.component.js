@@ -36,10 +36,6 @@ var MapComponent = (function () {
         setInterval(function () {
             _this.findCollisions();
         }, 50);
-        /*setInterval(function (that) {
-            that.food.push(new Food(that.cWidth, that.cHeight, 20, that.ctx, this.x, this.y));
-            that.food[that.food.length - 1].draw(that.ctxf);
-        }, 1000, this);*/
         this.snake.draw();
         this.snake.start({
             THICNESS_WALL: THICNESS_WALL,
@@ -64,9 +60,12 @@ var MapComponent = (function () {
                 _this.snakeControl.clean(change);
             }
             if (change.type == 'food') {
-                console.log(change);
-                _this.food.push(new food_1.Food(_this.cWidth, _this.cHeight, 20, _this.ctx, change.x, change.y, change.color));
+                _this.food.push(new food_1.Food(_this.cWidth, _this.cHeight, 20, _this.ctxf, change.x, change.y, change.color));
             }
+            if (change.type == 'destroy_food') {
+                _this.snakeControl.destroyFood(_this.ctxf, change.x, change.y, change.PIECE_SNAKE_RADIUS + 3);
+            }
+            //part.destroy(this.ctxf);
         };
         document.addEventListener('keydown', function (e) {
             if (e.which == 37) {
@@ -93,7 +92,13 @@ var MapComponent = (function () {
             if (this.snake.x > part.x - 10 && this.snake.x < part.x + 10 &&
                 this.snake.y > part.y - 10 && this.snake.y < part.y + 10) {
                 part.destroy(this.ctxf);
+                console.log("aaaaaa");
                 this.food.splice(this.food.indexOf(part), 1);
+                this.ws.send(JSON.stringify({
+                    type: 'destroy_food',
+                    x: part.x,
+                    y: part.y
+                }));
                 this.snake.length += 0.2;
                 this.increaseScore.emit(1);
             }

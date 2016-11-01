@@ -24,4 +24,12 @@ export class SnakesControl {
       this.ctx.closePath();
 	}
 
+	destroyFood(ctx: any, x: number, y: number, RADIUS: number) {
+		ctx.beginPath();
+	    ctx.fillStyle = '#fff';
+	    ctx.arc(x - 1, y - 1, RADIUS + 2, 0, 2 * Math.PI);
+	    ctx.fill();
+	    ctx.closePath();
+	}
+
 }

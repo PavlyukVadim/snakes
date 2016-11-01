@@ -62,13 +62,6 @@ export class MapComponent{
 		setInterval(() => {
 			this.findCollisions();
 		}, 50);
-		
-
-	
-		/*setInterval(function (that) {
-			that.food.push(new Food(that.cWidth, that.cHeight, 20, that.ctx, this.x, this.y));
-			that.food[that.food.length - 1].draw(that.ctxf);
-		}, 1000, this);*/
 
 		this.snake.draw();
 		
@@ -98,9 +91,12 @@ export class MapComponent{
 		  	this.snakeControl.clean(change);
 		  }
 		  if (change.type == 'food') {
-		  	console.log(change);
-		  	this.food.push(new Food(this.cWidth, this.cHeight, 20, this.ctx, change.x, change.y, change.color));
+		  	this.food.push(new Food(this.cWidth, this.cHeight, 20, this.ctxf, change.x, change.y, change.color));
 		  }
+		  if (change.type == 'destroy_food') {
+		  	this.snakeControl.destroyFood(this.ctxf, change.x, change.y, change.PIECE_SNAKE_RADIUS + 3);
+		  }
+		  //part.destroy(this.ctxf);
 
 		};
 
@@ -123,7 +119,6 @@ export class MapComponent{
 	  this.ctx.stroke(); 
 	}
 
-
 	findCollisions() {
 		this.findFoodCollision();
 		this.findSnakeСollision();
@@ -135,7 +130,15 @@ export class MapComponent{
       if (this.snake.x > part.x - 10 && this.snake.x < part.x + 10 &&
       	  this.snake.y > part.y - 10 && this.snake.y < part.y + 10) {
         part.destroy(this.ctxf);
+    	console.log("aaaaaa");
       	this.food.splice(this.food.indexOf(part), 1);
+
+      	this.ws.send(JSON.stringify({
+			    type : 'destroy_food',
+			    x: part.x,
+			    y: part.y
+			  }));
+
       	this.snake.length += 0.2;
       	this.increaseScore.emit(1);
       }

@@ -26,4 +26,4 @@ export class Food {
 	    ctx.fill();
 	    ctx.closePath();
 	}
-}
+} 

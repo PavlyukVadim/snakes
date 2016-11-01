@@ -36,7 +36,7 @@ let server = api.http.createServer((req, res) => {
 
 server.listen(8081, () => {
   console.log('Listen port 8081');
-});
+}); 
 
 let ws = new api.websocket.server({
   httpServer: server,
