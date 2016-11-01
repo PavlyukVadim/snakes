@@ -65,10 +65,10 @@ export class MapComponent{
 		
 
 	
-		setInterval(function (that) {
-			that.food.push(new Food(that.cWidth, that.cHeight, 20, that.ctx));
+		/*setInterval(function (that) {
+			that.food.push(new Food(that.cWidth, that.cHeight, 20, that.ctx, this.x, this.y));
 			that.food[that.food.length - 1].draw(that.ctxf);
-		}, 1000, this);
+		}, 1000, this);*/
 
 		this.snake.draw();
 		
@@ -97,6 +97,11 @@ export class MapComponent{
 		  if (change.type == 'clean') {
 		  	this.snakeControl.clean(change);
 		  }
+		  if (change.type == 'food') {
+		  	console.log(change);
+		  	this.food.push(new Food(this.cWidth, this.cHeight, 20, this.ctx, change.x, change.y, change.color));
+		  }
+
 		};
 
 

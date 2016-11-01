@@ -36,10 +36,10 @@ var MapComponent = (function () {
         setInterval(function () {
             _this.findCollisions();
         }, 50);
-        setInterval(function (that) {
-            that.food.push(new food_1.Food(that.cWidth, that.cHeight, 20, that.ctx));
+        /*setInterval(function (that) {
+            that.food.push(new Food(that.cWidth, that.cHeight, 20, that.ctx, this.x, this.y));
             that.food[that.food.length - 1].draw(that.ctxf);
-        }, 1000, this);
+        }, 1000, this);*/
         this.snake.draw();
         this.snake.start({
             THICNESS_WALL: THICNESS_WALL,
@@ -62,6 +62,10 @@ var MapComponent = (function () {
             }
             if (change.type == 'clean') {
                 _this.snakeControl.clean(change);
+            }
+            if (change.type == 'food') {
+                console.log(change);
+                _this.food.push(new food_1.Food(_this.cWidth, _this.cHeight, 20, _this.ctx, change.x, change.y, change.color));
             }
         };
         document.addEventListener('keydown', function (e) {

@@ -1,26 +1,11 @@
 "use strict";
 var Food = (function () {
-    function Food(maxX, maxY, THICNESS_WALL, ctxSnake) {
+    function Food(maxX, maxY, THICNESS_WALL, ctxSnake, x, y, color) {
         this.RADIUS = 6;
-        var find = false;
-        while (!find) {
-            var n = 0;
-            this.x = ((Math.random() * (maxX - THICNESS_WALL * 6)) + THICNESS_WALL * 3) >> 0;
-            this.y = ((Math.random() * (maxY - THICNESS_WALL * 6)) + THICNESS_WALL * 3) >> 0;
-            var clipWidth = 20, clipOffsetX = 20, clipOffsetY = 20;
-            var imageData = ctxSnake.getImageData(this.x - 10 + clipOffsetX, this.y - 10 + clipOffsetY, clipWidth, clipWidth);
-            for (var i = 0; i < clipWidth * clipWidth * 4; i += 4) {
-                var r = imageData.data[i + 0].toString(16).length > 1 ? imageData.data[i + 0].toString(16) : '0' + imageData.data[i + 0].toString(16), g = imageData.data[i + 1].toString(16).length > 1 ? imageData.data[i + 1].toString(16) : '0' + imageData.data[i + 1].toString(16), b = imageData.data[i + 2].toString(16).length > 1 ? imageData.data[i + 2].toString(16) : '0' + imageData.data[i + 2].toString(16);
-                var color = '#' + r + g + b;
-                if (color == '#ff5050') {
-                    n = 1;
-                    break;
-                }
-            }
-            if (n == 0)
-                find = true;
-        }
-        this.color = "rgb(" + (Math.random() * 255 >> 0) + ", " + (Math.random() * 255 >> 0) + ", " + (Math.random() * 255 >> 0) + ")";
+        this.x = (x % (maxX - 2 * (THICNESS_WALL + 5)) + THICNESS_WALL + 5);
+        this.y = (y % (maxY - 2 * (THICNESS_WALL + 5)) + THICNESS_WALL + 5);
+        this.color = color;
+        this.draw(ctxSnake);
     }
     Food.prototype.draw = function (ctx) {
         ctx.beginPath();

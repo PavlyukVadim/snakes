@@ -53,14 +53,8 @@ ws.on('request', (req) => {
   connection.on('message', (message) => {
     let dataName = message.type + 'Data',
         data = message[dataName];
-    //if(data.type) {
+    
       sendSnakeData(data, connection);
-    //}
-    /*else {
-      clients.forEach((client) => {
-        client.send(data, connection);
-      }); 
-    }*/
   });
   connection.on('close', (reasonCode, description) => {
     console.log('Disconnected ' + connection.remoteAddress);
@@ -74,3 +68,16 @@ function sendSnakeData(data, connection) {
     }
   });
 }
+
+setInterval(() => {
+  let data = {
+    type : 'food',
+    x : (Math.random() * 1000),
+    y : (Math.random() * 1000),
+    color : `rgb(${Math.random() * 255 >> 0}, ${Math.random() * 255 >> 0}, ${Math.random() * 255 >> 0})`
+  };
+
+  clients.forEach((client) => {
+    client.send(JSON.stringify(data));
+  });
+}, 3000); 
