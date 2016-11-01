@@ -32,4 +32,13 @@ export class SnakesControl {
 	    ctx.closePath();
 	}
 
+	destroySnake(ctx: any, coordinates: any, RADIUS: number) {
+		for(let i = 0; i < coordinates.x.length; i++) {
+			ctx.beginPath();
+	    ctx.fillStyle = '#fff';
+	    ctx.arc(coordinates.x[i] - 1, coordinates.y[i] - 1, RADIUS + 2, 0, 2 * Math.PI);
+	    ctx.fill();
+	    ctx.closePath();
+		}
+	}
 }

@@ -30,17 +30,22 @@ export class MapComponent{
 	food: any;
 
 	ws: WebSocket;
-	snake : Snake;
-	snakeControl : SnakesControl;
+	snake: Snake;
+	snakeControl: SnakesControl;
+
+	sendSnakeDataIntr: any; 
+	findCollisionsIntr: any; 
+	lose: boolean;
+
 
 	constructor() {
 		this.food = [];
+		this.lose = false;
 	}
 
 
 	ngAfterViewInit() {
 		this.ws = new WebSocket("ws://127.0.0.1:8081/");
-
 
 		this.canvas = this.canvasRef.nativeElement;
 		this.canvasFood = this.canvasFoodRef.nativeElement;
@@ -54,24 +59,26 @@ export class MapComponent{
 	}
 
 	start() {
-	
+
 		this.drawWall();
 		this.snake = new Snake(100, 100, 2, 30, this.ctx, this.ws);
 		this.snakeControl = new SnakesControl(this.ctx);		
-
-		setInterval(() => {
-			this.findCollisions();
-		}, 50);
 
 		this.snake.draw();
 		
 		this.snake.start({
 			THICNESS_WALL : THICNESS_WALL,
-			mapW : this.cWidth,
-			mapH : this.cHeight
+			mapW: this.cWidth,
+			mapH: this.cHeight
 		});
 
-		setInterval(() => {
+
+
+		this.findCollisionsIntr = setInterval(() => {
+			this.findCollisions();
+		}, 50);
+
+		this.sendSnakeDataIntr = setInterval(() => {
 			this.ws.send(JSON.stringify({
 		    type : 'draw',
 		    x: this.snake.x,
@@ -81,23 +88,28 @@ export class MapComponent{
 		}, 50);
 
 		
+
+
 		this.ws.onmessage = (event) => {
+		  if( this.lose ) return;
+
 		  let change = JSON.parse(event.data);
 		  change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || this.snake.PIECE_SNAKE_RADIUS;
 		  if (change.type == 'draw') {
 		  	this.snakeControl.drawAll(change);
 		  } 
-		  if (change.type == 'clean') {
+		  else if (change.type == 'clean') {
 		  	this.snakeControl.clean(change);
 		  }
-		  if (change.type == 'food') {
+		  else if (change.type == 'food') {
 		  	this.food.push(new Food(this.cWidth, this.cHeight, 20, this.ctxf, change.x, change.y, change.color));
 		  }
-		  if (change.type == 'destroy_food') {
+		  else if (change.type == 'destroy_food') {
 		  	this.snakeControl.destroyFood(this.ctxf, change.x, change.y, change.PIECE_SNAKE_RADIUS + 3);
 		  }
-		  //part.destroy(this.ctxf);
-
+		  else if (change.type == 'destroy_snake') {
+		  	this.snakeControl.destroySnake(this.ctx, change.coordinates, change.PIECE_SNAKE_RADIUS + 3);
+		  }
 		};
 
 
@@ -110,6 +122,7 @@ export class MapComponent{
 			} 
 		});
 	}
+
 
 	drawWall() {
 	  this.ctx.strokeStyle = "#f00";
@@ -130,7 +143,6 @@ export class MapComponent{
       if (this.snake.x > part.x - 10 && this.snake.x < part.x + 10 &&
       	  this.snake.y > part.y - 10 && this.snake.y < part.y + 10) {
         part.destroy(this.ctxf);
-    	console.log("aaaaaa");
       	this.food.splice(this.food.indexOf(part), 1);
 
       	this.ws.send(JSON.stringify({
@@ -161,12 +173,27 @@ export class MapComponent{
       let color: string = '#' + r + g + b; 
 
       if (color == this.snake.COLOR) {
-        setTimeout(clearInterval, 300, this.snake.interval); 
+        //setTimeout(clearInterval, 300, this.snake.interval);
+        this.gameOver();
         break;
       }
     }
   }
 
+
+  gameOver() {
+  	clearInterval(this.snake.interval);
+  	clearInterval(this.sendSnakeDataIntr);
+		clearInterval(this.findCollisionsIntr);
+
+		this.lose = true;
+
+  	this.ws.send(JSON.stringify({
+	    type : 'destroy_snake',
+	    coordinates  : this.snake.coordinates
+	  }));
+    delete this.snake;
+  }
 
   snakeLengthControl() {
     /*if (this.snake.coordinates.x.length >= this.snake.length) {
@@ -179,5 +206,4 @@ export class MapComponent{
       this.snake.coordinates.y.shift();
     }*/
   }
-
 }

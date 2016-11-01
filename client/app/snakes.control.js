@@ -23,6 +23,15 @@ var SnakesControl = (function () {
         ctx.fill();
         ctx.closePath();
     };
+    SnakesControl.prototype.destroySnake = function (ctx, coordinates, RADIUS) {
+        for (var i = 0; i < coordinates.x.length; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = '#fff';
+            ctx.arc(coordinates.x[i] - 1, coordinates.y[i] - 1, RADIUS + 2, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.closePath();
+        }
+    };
     return SnakesControl;
 }());
 exports.SnakesControl = SnakesControl;
