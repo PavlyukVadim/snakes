@@ -56,7 +56,12 @@ var MapComponent = (function () {
                 return;
             var change = JSON.parse(event.data);
             change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || _this.snake.PIECE_SNAKE_RADIUS;
-            if (change.type == 'draw') {
+            if (change.type == 'initial_food') {
+                change.data.forEach(function (element) {
+                    _this.food.push(new food_1.Food(_this.cWidth, _this.cHeight, 20, _this.ctxf, element.x, element.y, element.color));
+                });
+            }
+            else if (change.type == 'draw') {
                 _this.snakeControl.drawAll(change);
             }
             else if (change.type == 'clean') {

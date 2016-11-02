@@ -52,6 +52,13 @@ ws.on('request', (req) => {
   let connection = req.accept('', req.origin);
   clients.push(connection);
   console.log('Connected ' + connection.remoteAddress);
+  
+  connection.send(JSON.stringify({
+    type: 'initial_food',
+    data: food
+  }));
+
+
   connection.on('message', (message) => {
     let dataName = message.type + 'Data',
         data = message[dataName];
@@ -100,19 +107,8 @@ function deleteFood(x, y) {
     if ( (element.x % (700 - 2 * (20 + 5) ) + 20 + 5) == x &&
          (element.y % (500 - 2 * (20 + 5) ) + 20 + 5) == y) {
       food.splice(food.indexOf(element), 1);
-      console.log(food.length);
       return;
-      
     }
   });
 }
-
-
-
-
-
-
-
-
-
 

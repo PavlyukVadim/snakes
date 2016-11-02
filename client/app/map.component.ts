@@ -95,7 +95,16 @@ export class MapComponent{
 
 		  let change = JSON.parse(event.data);
 		  change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || this.snake.PIECE_SNAKE_RADIUS;
-		  if (change.type == 'draw') {
+		  
+		  if (change.type == 'initial_food') {
+		  	change.data.forEach((element: any) => {
+		  		this.food.push(new Food(this.cWidth, this.cHeight, 20, this.ctxf, element.x, element.y, element.color));	
+		  	});
+		  } 
+
+
+
+		  else if (change.type == 'draw') {
 		  	this.snakeControl.drawAll(change);
 		  } 
 		  else if (change.type == 'clean') {
