@@ -92,8 +92,6 @@ export class Snake{
   validationCoordinates(cSetting: any) {
     if(this.x < cSetting.THICNESS_WALL || this.x > cSetting.mapW - cSetting.THICNESS_WALL || 
        this.y < cSetting.THICNESS_WALL || this.y > cSetting.mapH - cSetting.THICNESS_WALL) {
-      //finish();
-      //this.stop();
        if (this.x < cSetting.THICNESS_WALL) {
          this.x = cSetting.mapW - cSetting.THICNESS_WALL;
          return;
@@ -102,9 +100,15 @@ export class Snake{
          this.x = cSetting.THICNESS_WALL;
          return;
        }
-       this.stop();
+       else if (this.y < cSetting.THICNESS_WALL) {
+         this.y = cSetting.mapH - cSetting.THICNESS_WALL;
+         return;
+       }
+       else if (this.y > cSetting.mapH - cSetting.THICNESS_WALL) {
+         this.y = cSetting.THICNESS_WALL;
+         return;
+       }
     }
-    //this.checkСollision();
   }
 
   /*checkСollision(food: any = []) {

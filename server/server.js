@@ -44,6 +44,8 @@ let ws = new api.websocket.server({
 });
 
 let clients = [];
+let food = [];
+
 
 ws.on('request', (req) => {
   console.log('websocket');
@@ -53,7 +55,12 @@ ws.on('request', (req) => {
   connection.on('message', (message) => {
     let dataName = message.type + 'Data',
         data = message[dataName];
-    
+        
+        if (JSON.parse(data).type == 'destroy_food') {
+          let dataObj = JSON.parse(data);
+          deleteFood(dataObj.x, dataObj.y);
+        }
+
       sendSnakeData(data, connection);
   });
   connection.on('close', (reasonCode, description) => {
@@ -69,6 +76,9 @@ function sendSnakeData(data, connection) {
   });
 }
 
+
+/*Create food*/
+
 setInterval(() => {
   let data = {
     type : 'food',
@@ -77,7 +87,32 @@ setInterval(() => {
     color : `rgb(${Math.random() * 255 >> 0}, ${Math.random() * 255 >> 0}, ${Math.random() * 255 >> 0})`
   };
 
+  food.push(data);
+
   clients.forEach((client) => {
     client.send(JSON.stringify(data));
   });
 }, 3000); 
+
+
+function deleteFood(x, y) {
+  food.forEach((element) => {
+    if ( (element.x % (700 - 2 * (20 + 5) ) + 20 + 5) == x &&
+         (element.y % (500 - 2 * (20 + 5) ) + 20 + 5) == y) {
+      food.splice(food.indexOf(element), 1);
+      console.log(food.length);
+      return;
+      
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+

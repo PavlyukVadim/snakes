@@ -82,10 +82,10 @@ var MapComponent = (function () {
         });
     };
     MapComponent.prototype.drawWall = function () {
-        this.ctx.strokeStyle = "#f00";
-        this.ctx.setLineDash([5, 15]);
-        this.ctx.strokeRect(0 + THICNESS_WALL, 0 + THICNESS_WALL, this.cWidth - 2 * THICNESS_WALL, this.cHeight - 2 * THICNESS_WALL);
-        this.ctx.stroke();
+        this.ctxf.strokeStyle = "#f00";
+        this.ctxf.setLineDash([5, 15]);
+        this.ctxf.strokeRect(0 + THICNESS_WALL, 0 + THICNESS_WALL, this.cWidth - 2 * THICNESS_WALL, this.cHeight - 2 * THICNESS_WALL);
+        this.ctxf.stroke();
     };
     MapComponent.prototype.findCollisions = function () {
         this.findFoodCollision();
@@ -103,7 +103,7 @@ var MapComponent = (function () {
                     x: part.x,
                     y: part.y
                 }));
-                this.snake.length += 0.2;
+                this.snake.length += 1;
                 this.increaseScore.emit(1);
             }
         }

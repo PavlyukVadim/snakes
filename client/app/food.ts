@@ -19,7 +19,7 @@ export class Food {
 	    ctx.closePath();
 	}
 
-	destroy(ctx: any) {
+	destroy(ctx: any) { 
 		ctx.beginPath();
 	    ctx.fillStyle = '#fff';
 	    ctx.arc(this.x - 1, this.y - 1, this.RADIUS + 2, 0, 2 * Math.PI);

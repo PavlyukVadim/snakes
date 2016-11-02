@@ -61,7 +61,7 @@ export class MapComponent{
 
 	start() {
 		this.drawWall();
-		this.snake = new Snake(this.snakeColor 100, 100, 2, 30, this.ctx, this.ws);
+		this.snake = new Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws);
 		this.snakeControl = new SnakesControl(this.ctx);		
 
 		this.snake.draw();
@@ -125,11 +125,11 @@ export class MapComponent{
 
 
 	drawWall() {
-	  this.ctx.strokeStyle = "#f00";
-	  this.ctx.setLineDash([5, 15]);
-	  this.ctx.strokeRect(0 + THICNESS_WALL, 0 + THICNESS_WALL,
+	  this.ctxf.strokeStyle = "#f00";
+	  this.ctxf.setLineDash([5, 15]);
+	  this.ctxf.strokeRect(0 + THICNESS_WALL, 0 + THICNESS_WALL,
 	                      this.cWidth - 2 * THICNESS_WALL, this.cHeight - 2 * THICNESS_WALL);
-	  this.ctx.stroke(); 
+	  this.ctxf.stroke(); 
 	}
 
 	findCollisions() {
@@ -151,7 +151,7 @@ export class MapComponent{
 			    y: part.y
 			  }));
 
-      	this.snake.length += 0.2;
+      	this.snake.length += 1;
       	this.increaseScore.emit(1);
       }
   	}
