@@ -3,14 +3,14 @@ import { User } from './user';
 
 @Component({
   selector: 'my-app',
-  templateUrl: 'html/app.html',
-  styles: [
-  ':host /deep/ canvas { position: absolute; }'
-  ]
+  templateUrl: 'html/app.html'
 })
 
 export class AppComponent {
-	user: User = {
+	
+  start: boolean = false; 
+
+  user: User = { 
 		name : "Anonim",
 		color : "red"
 	};
@@ -19,8 +19,10 @@ export class AppComponent {
 
 
 	onTransferUser(user: User):void {
+    this.start = true;
     this.user.name = user.name;
     this.user.color = user.color;
+    console.log(this.user);
   }
 
   increaseScore(value: number){

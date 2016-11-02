@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, Output, EventEmitter} from '@angular/core';
+import { Component, ElementRef, ViewChild, Input, Output, EventEmitter} from '@angular/core';
 import { Snake } from './snake';
 import { Food } from './food';
 import { SnakesControl } from './snakes.control'; 
@@ -9,8 +9,7 @@ const THICNESS_WALL: number = 20;
 
 @Component({
   selector: 'map',
-  templateUrl: 'html/map.html',
-  //styleUrls: ''
+  templateUrl: 'html/map.html'
 })
 
 export class MapComponent{
@@ -18,6 +17,8 @@ export class MapComponent{
 	@ViewChild('canvasFood') canvasFoodRef:ElementRef;
 	
 	@Output() increaseScore = new EventEmitter<number>();
+	@Input() snakeColor: string;
+
 
 	canvas: HTMLCanvasElement;
 	ctx: any;
@@ -59,9 +60,8 @@ export class MapComponent{
 	}
 
 	start() {
-
 		this.drawWall();
-		this.snake = new Snake(100, 100, 2, 30, this.ctx, this.ws);
+		this.snake = new Snake(this.snakeColor 100, 100, 2, 30, this.ctx, this.ws);
 		this.snakeControl = new SnakesControl(this.ctx);		
 
 		this.snake.draw();

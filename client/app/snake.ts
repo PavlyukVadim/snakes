@@ -19,9 +19,9 @@ export class Snake{
 
 	interval : any;
   ws: WebSocket;
-	constructor(x: number, y: number, angle: number, length: number, ctx: any, ws: WebSocket) {
-		this.ws = ws;
-
+	constructor(color: string, x: number, y: number, angle: number, length: number, ctx: any, ws: WebSocket) {
+		this.COLOR = color || this.COLOR;
+    this.ws = ws;
     this.x = x;
 		this.y = y;
 		this.angle = angle;

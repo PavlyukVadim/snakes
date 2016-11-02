@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var AppComponent = (function () {
     function AppComponent() {
+        this.start = false;
         this.user = {
             name: "Anonim",
             color: "red"
@@ -18,8 +19,10 @@ var AppComponent = (function () {
         this.score = 100;
     }
     AppComponent.prototype.onTransferUser = function (user) {
+        this.start = true;
         this.user.name = user.name;
         this.user.color = user.color;
+        console.log(this.user);
     };
     AppComponent.prototype.increaseScore = function (value) {
         console.log('1');
@@ -28,10 +31,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            templateUrl: 'html/app.html',
-            styles: [
-                ':host /deep/ canvas { position: absolute; }'
-            ]
+            templateUrl: 'html/app.html'
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

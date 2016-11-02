@@ -1,4 +1,4 @@
-<div *ngIf="0" class="jumbotron">
+<div *ngIf="!start" class="jumbotron">
     <h1>Hi<span *ngIf="user.name">, </span>{{user.name}}!</h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium pariatur illo debitis aut minima dignissimos, consequatur, id. Totam illum dolor veritatis dignissimos, eaque, dolores, harum sit atque, magni voluptates laudantium.</p>
     <div class="center-block">
@@ -13,9 +13,9 @@
           <label class="col-sm-2 control-label">Color : </label>
           <div class="col-sm-10">
             <ul class="colors">
-              <li><div id="red"></div></li>
-              <li><div id="green"></div></li>
-              <li><div id="blue"></div></li>
+              <li><div id="red" (click)="user.color = '#ff5050' "></div></li>
+              <li><div id="green" (click)="user.color = '#00ff00' "></div></li>
+              <li><div id="blue" (click)="user.color = '#0000ff' "></div></li>
             </ul>
           </div>
         </div>

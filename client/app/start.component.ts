@@ -29,4 +29,6 @@ export class StartComponent {
   	inputName(value: string) {
     	this.user.name = value;
 	}
-}  
+
+
+}   

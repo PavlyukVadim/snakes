@@ -3,9 +3,10 @@
   <h1>Snakes</h1>
 </div> 
 <div class='row'>  
-  <map (increaseScore)='increaseScore($event)'></map>
+  <map *ngIf="start" (increaseScore)='increaseScore($event)' [snakeColor]="user.color"></map>
+
   <div class="col-lg-4 col-md-4">
-  <!--<div id="information">
+  <div id="information">
     <p>Your score: {{score}}</p>
     <h2>You are logged in as {{user.name}}</h2>
   </div>
@@ -17,5 +18,5 @@
         <button type="button" id="btn-input" class="btn btn-primary">Отправить</button>
       </div>
     </div>
-  </div>-->
-</div> 
+  </div>
+</div>  

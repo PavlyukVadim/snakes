@@ -32,7 +32,7 @@ var MapComponent = (function () {
     MapComponent.prototype.start = function () {
         var _this = this;
         this.drawWall();
-        this.snake = new snake_1.Snake(100, 100, 2, 30, this.ctx, this.ws);
+        this.snake = new snake_1.Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws);
         this.snakeControl = new snakes_control_1.SnakesControl(this.ctx);
         this.snake.draw();
         this.snake.start({
@@ -156,10 +156,14 @@ var MapComponent = (function () {
         core_1.Output(), 
         __metadata('design:type', Object)
     ], MapComponent.prototype, "increaseScore", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], MapComponent.prototype, "snakeColor", void 0);
     MapComponent = __decorate([
         core_1.Component({
             selector: 'map',
-            templateUrl: 'html/map.html',
+            templateUrl: 'html/map.html'
         }), 
         __metadata('design:paramtypes', [])
     ], MapComponent);
