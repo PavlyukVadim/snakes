@@ -28,6 +28,9 @@ var AppComponent = (function () {
         console.log('1');
         this.score += 1;
     };
+    AppComponent.prototype.gameStatus = function (flag) {
+        this.start = flag;
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',

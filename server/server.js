@@ -1,5 +1,7 @@
 'use strict';
 
+const MAX_COUNT_FOOD = 20; 
+
 global.api = {};
 api.fs = require('fs');
 api.http = require('http');
@@ -45,6 +47,8 @@ let ws = new api.websocket.server({
 
 let clients = [];
 let food = [];
+let snakesColor = [];
+
 
 
 ws.on('request', (req) => {
@@ -62,11 +66,30 @@ ws.on('request', (req) => {
   connection.on('message', (message) => {
     let dataName = message.type + 'Data',
         data = message[dataName];
+        let type = JSON.parse(data).type; 
         
-        if (JSON.parse(data).type == 'destroy_food') {
+        if (type == 'destroy_food') {
           let dataObj = JSON.parse(data);
           deleteFood(dataObj.x, dataObj.y);
         }
+
+        else if (type == 'new_snake') {
+          snakesColor.push(JSON.parse(data).color);
+          data = JSON.stringify({
+            type: 'new_snake',
+            colors: snakesColor
+          })
+          sendSnakeDataToEach(data);
+          return;
+        }
+
+        else if (type == 'destroy_snake') {
+          snakesColor.splice(snakesColor.indexOf(JSON.parse(data).color), 1);
+          sendSnakeDataToEach(JSON.stringify({
+            type: 'new_snake',
+            colors: snakesColor
+          }));
+        } 
 
       sendSnakeData(data, connection);
   });
@@ -83,10 +106,18 @@ function sendSnakeData(data, connection) {
   });
 }
 
+function sendSnakeDataToEach(data) {
+  clients.forEach((client) => {
+    client.send(data);  
+  });
+}
+
+
 
 /*Create food*/
 
 setInterval(() => {
+  if (food.length > MAX_COUNT_FOOD) return;
   let data = {
     type : 'food',
     x : (Math.random() * 1000),

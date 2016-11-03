@@ -16,11 +16,23 @@ var THICNESS_WALL = 20;
 var MapComponent = (function () {
     function MapComponent() {
         this.increaseScore = new core_1.EventEmitter();
+        this.gameStatus = new core_1.EventEmitter();
+        this.snakesColors = [];
         this.food = [];
         this.lose = false;
     }
+    MapComponent.prototype.waitForConnection = function (callback, interval) {
+        var _this = this;
+        if (this.ws.readyState === 1) {
+            callback();
+        }
+        else {
+            setTimeout(function () { _this.waitForConnection(callback, interval); }, interval);
+        }
+    };
+    ;
     MapComponent.prototype.ngAfterViewInit = function () {
-        this.ws = new WebSocket("ws://127.0.0.1:8081/");
+        this.ws = new WebSocket("ws://" + window.location.host + "/");
         this.canvas = this.canvasRef.nativeElement;
         this.canvasFood = this.canvasFoodRef.nativeElement;
         this.ctx = this.canvas.getContext('2d');
@@ -31,6 +43,12 @@ var MapComponent = (function () {
     };
     MapComponent.prototype.start = function () {
         var _this = this;
+        this.waitForConnection(function () {
+            _this.ws.send(JSON.stringify({
+                type: 'new_snake',
+                color: _this.snakeColor
+            }));
+        }, 1000);
         this.drawWall();
         this.snake = new snake_1.Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws);
         this.snakeControl = new snakes_control_1.SnakesControl(this.ctx);
@@ -56,7 +74,11 @@ var MapComponent = (function () {
                 return;
             var change = JSON.parse(event.data);
             change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || _this.snake.PIECE_SNAKE_RADIUS;
-            if (change.type == 'initial_food') {
+            if (change.type == 'new_snake') {
+                _this.snakesColors = change.colors;
+                console.log(_this.snakesColors);
+            }
+            else if (change.type == 'initial_food') {
                 change.data.forEach(function (element) {
                     _this.food.push(new food_1.Food(_this.cWidth, _this.cHeight, 20, _this.ctxf, element.x, element.y, element.color));
                 });
@@ -120,7 +142,7 @@ var MapComponent = (function () {
         for (var i = 0; i < clipWidth * clipWidth * 4; i += 4) {
             var r = imageData.data[i + 0].toString(16).length > 1 ? imageData.data[i + 0].toString(16) : '0' + imageData.data[i + 0].toString(16), g = imageData.data[i + 1].toString(16).length > 1 ? imageData.data[i + 1].toString(16) : '0' + imageData.data[i + 1].toString(16), b = imageData.data[i + 2].toString(16).length > 1 ? imageData.data[i + 2].toString(16) : '0' + imageData.data[i + 2].toString(16);
             var color = '#' + r + g + b;
-            if (color == this.snake.COLOR) {
+            if (this.snakesColors.indexOf(color) != -1) {
                 //setTimeout(clearInterval, 300, this.snake.interval);
                 this.gameOver();
                 break;
@@ -134,9 +156,11 @@ var MapComponent = (function () {
         this.lose = true;
         this.ws.send(JSON.stringify({
             type: 'destroy_snake',
-            coordinates: this.snake.coordinates
+            coordinates: this.snake.coordinates,
+            color: this.snakeColor
         }));
         delete this.snake;
+        this.gameStatus.emit(false);
     };
     MapComponent.prototype.snakeLengthControl = function () {
         /*if (this.snake.coordinates.x.length >= this.snake.length) {
@@ -161,6 +185,10 @@ var MapComponent = (function () {
         core_1.Output(), 
         __metadata('design:type', Object)
     ], MapComponent.prototype, "increaseScore", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], MapComponent.prototype, "gameStatus", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)

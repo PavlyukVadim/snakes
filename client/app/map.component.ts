@@ -17,8 +17,14 @@ export class MapComponent{
 	@ViewChild('canvasFood') canvasFoodRef:ElementRef;
 	
 	@Output() increaseScore = new EventEmitter<number>();
+	@Output() gameStatus = new EventEmitter<boolean>();
+		
+
 	@Input() snakeColor: string;
 
+
+
+	snakesColors: Array<string> = [];
 
 	canvas: HTMLCanvasElement;
 	ctx: any;
@@ -45,8 +51,17 @@ export class MapComponent{
 	}
 
 
+	waitForConnection(callback: any, interval: any) {
+    if (this.ws.readyState === 1) {
+        callback();
+    } else {
+        setTimeout(() => { this.waitForConnection(callback, interval); }, interval);
+    }
+	};
+
+
 	ngAfterViewInit() {
-		this.ws = new WebSocket("ws://127.0.0.1:8081/");
+		this.ws = new WebSocket("ws://" + window.location.host + "/");
 
 		this.canvas = this.canvasRef.nativeElement;
 		this.canvasFood = this.canvasFoodRef.nativeElement;
@@ -56,10 +71,21 @@ export class MapComponent{
 
 		this.cWidth = this.canvas.width;
 		this.cHeight = this.canvas.height;
+
 		this.start();
 	}
 
+
 	start() {
+	
+		this.waitForConnection(() => {
+      this.ws.send(JSON.stringify({
+	    	type: 'new_snake',
+	    	color: this.snakeColor
+	  	}));
+    }, 1000);
+
+
 		this.drawWall();
 		this.snake = new Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws);
 		this.snakeControl = new SnakesControl(this.ctx);		
@@ -89,20 +115,22 @@ export class MapComponent{
 
 		
 
-
 		this.ws.onmessage = (event) => {
 		  if( this.lose ) return;
 
 		  let change = JSON.parse(event.data);
 		  change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || this.snake.PIECE_SNAKE_RADIUS;
 		  
-		  if (change.type == 'initial_food') {
+		  if (change.type == 'new_snake') {
+		  	this.snakesColors = change.colors;
+		  	console.log(this.snakesColors);
+		  }
+
+		  else if (change.type == 'initial_food') {
 		  	change.data.forEach((element: any) => {
 		  		this.food.push(new Food(this.cWidth, this.cHeight, 20, this.ctxf, element.x, element.y, element.color));	
 		  	});
 		  } 
-
-
 
 		  else if (change.type == 'draw') {
 		  	this.snakeControl.drawAll(change);
@@ -181,7 +209,7 @@ export class MapComponent{
           b = imageData.data[i + 2].toString(16).length > 1 ? imageData.data[i + 2].toString(16) : '0' + imageData.data[i + 2].toString(16);
       let color: string = '#' + r + g + b; 
 
-      if (color == this.snake.COLOR) {
+      if (this.snakesColors.indexOf(color) != -1) {
         //setTimeout(clearInterval, 300, this.snake.interval);
         this.gameOver();
         break;
@@ -198,10 +226,12 @@ export class MapComponent{
 		this.lose = true;
 
   	this.ws.send(JSON.stringify({
-	    type : 'destroy_snake',
-	    coordinates  : this.snake.coordinates
+	    type: 'destroy_snake',
+	    coordinates: this.snake.coordinates,
+	    color: this.snakeColor
 	  }));
     delete this.snake;
+    this.gameStatus.emit(false);
   }
 
   snakeLengthControl() {

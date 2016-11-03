@@ -29,5 +29,12 @@ export class AppComponent {
   	console.log('1');
   	this.score += 1;
   }
+
+  gameStatus(flag: boolean){
+    this.start = flag;
+  }
+
+
+
 }
   
