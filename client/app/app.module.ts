@@ -5,8 +5,11 @@ import { AppComponent }  from './app.component';
 import { StartComponent }  from './start.component';
 import { MapComponent }  from './map.component';
 
+
 @NgModule({
-  imports: [ BrowserModule ],
+  imports: [ 
+  	BrowserModule,
+   ],
   declarations: [ 
   	AppComponent,
   	StartComponent,

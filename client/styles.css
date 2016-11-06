@@ -13,7 +13,6 @@ h1{
 }
 
 canvas{
-  /*background-color: #ff9;*/
   border-radius: 5px;
 }
 
@@ -81,7 +80,7 @@ ul{
   right: 0;
   bottom: 0;
   left: 0;
-  margin: auto;
+  margin: 40px auto;
 }
 
 #score-board{
@@ -92,4 +91,12 @@ ul{
 
 #score-board li{
   font: 15px Arial;
+}
+
+.jumbotron{
+  z-index: 1;
+}
+
+.navbar-default{
+  z-index: 999;
 }
