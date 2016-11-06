@@ -17,13 +17,9 @@ export class StartComponent {
 	start: boolean = false;
 
 	user: User = {
-		name: this.userName,
-		color: "ff5050"
+		name: "Anonim",
+		color: "#ff5050"
 	};
-	
-	constructor() {
-		console.log(this.userName);
-	}
 
 	play() {
 		this.start = true;
@@ -34,6 +30,4 @@ export class StartComponent {
   	inputName(value: string) {
     	this.user.name = value;
 	}
-
-
 }   

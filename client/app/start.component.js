@@ -15,10 +15,9 @@ var StartComponent = (function () {
         this.transferUser = new core_1.EventEmitter();
         this.start = false;
         this.user = {
-            name: this.userName,
-            color: "ff5050"
+            name: "Anonim",
+            color: "#ff5050"
         };
-        console.log(this.userName);
     }
     StartComponent.prototype.play = function () {
         this.start = true;

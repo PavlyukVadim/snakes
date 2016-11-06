@@ -80,13 +80,16 @@ var MapComponent = (function () {
                 _this.snakesColors = change.colors;
                 console.log(_this.snakesColors);
             }
+            else if (change.type == 'change_name') {
+                _this.userName = change.name;
+            }
             else if (change.type == 'initial_food') {
                 change.data.forEach(function (element) {
                     _this.food.push(new food_1.Food(_this.cWidth, _this.cHeight, 20, _this.ctxf, element.x, element.y, element.color));
                 });
             }
             else if (change.type == 'user_score') {
-                _this.usersScore = change.score;
+                _this.usersScore = change.score.sort(function (a, b) { return b.score - a.score; });
                 console.log(change.score);
             }
             else if (change.type == 'draw') {
@@ -135,7 +138,8 @@ var MapComponent = (function () {
                     type: 'destroy_food',
                     x: part.x,
                     y: part.y,
-                    name: this.userName
+                    name: this.userName,
+                    color: this.snakeColor
                 }));
                 this.snake.length += 1;
                 this.increaseScore.emit(1);
@@ -169,17 +173,6 @@ var MapComponent = (function () {
         }));
         delete this.snake;
         this.gameStatus.emit(false);
-    };
-    MapComponent.prototype.snakeLengthControl = function () {
-        /*if (this.snake.coordinates.x.length >= this.snake.length) {
-          this.ws.send(JSON.stringify({
-                type : 'clean',
-                x: this.snake.coordinates.x[0],
-                y: this.snake.coordinates.y[0]
-              }));
-              this.snake.coordinates.x.shift();
-          this.snake.coordinates.y.shift();
-        }*/
     };
     __decorate([
         core_1.ViewChild('canvas'), 

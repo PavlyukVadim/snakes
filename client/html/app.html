@@ -1,8 +1,8 @@
-<start-app *ngIf="0" (transferUser)='onTransferUser($event)' [userName]="'dfgfdd'" ></start-app>
+<start-app *ngIf="!start" (transferUser)='onTransferUser($event)' [userName]="'dfgfdd'" ></start-app>
 <div id="snake-title">
   <h1>Snakes</h1>
 </div> 
 <div class='row'>  
-  <map *ngIf="1" (increaseScore)='increaseScore($event)' (gameStatus)='gameStatus($event)' [snakeColor]="user.color"   
+  <map *ngIf="start" (increaseScore)='increaseScore($event)' (gameStatus)='gameStatus($event)' [snakeColor]="user.color"   
   [userName]="user.name" ></map>  
 </div>    

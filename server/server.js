@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 const MAX_COUNT_FOOD = 20; 
 
 global.api = {};
@@ -68,6 +68,7 @@ ws.on('request', (req) => {
         data = message[dataName];
         let type = JSON.parse(data).type; 
         
+        
         if (type == 'destroy_food') {
           let dataObj = JSON.parse(data);
           for (let scoreElem of userScore){
@@ -82,10 +83,7 @@ ws.on('request', (req) => {
         else if (type == 'new_snake') {
           data = JSON.parse(data);
           snakesColor.push(data.color);
-          userScore.push({
-            name: data.name,
-            score: 100
-          })
+          addNewSnake(data, connection);
           sendUserScore();
           connection.name = data.name;
 
@@ -101,7 +99,7 @@ ws.on('request', (req) => {
           data = JSON.parse(data);
           snakesColor.splice(snakesColor.indexOf(data.color), 1);
           userScore = userScore.filter((elem) => { if(elem.name != data.name) return elem;});
-          sendUserScore();
+          sendUserScore(data);
           sendSnakeDataToEach(JSON.stringify({
             type: 'new_snake',
             colors: snakesColor
@@ -112,7 +110,7 @@ ws.on('request', (req) => {
   });
 
   connection.on('close', (reasonCode, description) => {
-    userScore = userScore.filter((elem) => { if(elem.name != connection.name) return elem;});
+    userScore = userScore.filter((elem) => { if( elem.name != connection.name ) return elem;});
     sendUserScore();
     clients.splice(clients.indexOf(connection), 1);
     console.log('Disconnected ' + connection.remoteAddress);
@@ -141,6 +139,33 @@ function sendUserScore() {
       client.send(JSON.stringify(data));  
   });
 }
+
+
+function addNewSnake(data, connection) {
+  let result = userScore.reduce((count, elem) => {
+    let initName = elem.name.split("").filter((s) => {if(s != '_') return s}).join("");
+    if (initName == data.name) {
+      count++;
+    } 
+    return count;
+  }, 0);
+
+  if (result) {
+    data.name = data.name + ('_').repeat(result);
+    connection.send(JSON.stringify({
+      type: "change_name",
+      name: data.name
+    }));
+  }
+  userScore.push({
+    name: data.name,
+    color: data.color,
+    score: 100
+  })
+}
+
+
+
 
 /*Create food*/
 

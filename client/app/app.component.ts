@@ -9,10 +9,9 @@ import { User } from './user';
 export class AppComponent {
 	
   start: boolean = false; 
-
   user: User = { 
-		name : "Anoni",
-		color : "red"
+		name : "",
+		color : ""
 	};
 
 	score: number = 100;

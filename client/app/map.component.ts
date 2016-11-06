@@ -19,11 +19,8 @@ export class MapComponent{
 	@Output() increaseScore = new EventEmitter<number>();
 	@Output() gameStatus = new EventEmitter<boolean>();
 		
-
 	@Input() snakeColor: string;
 	@Input() userName: string;
-
-
 
 	snakesColors: Array<string> = [];
 	usersScore: Array<any> = [];
@@ -47,7 +44,6 @@ export class MapComponent{
 	findCollisionsIntr: any; 
 	lose: boolean;
 
-
 	constructor() {
 		this.food = [];
 		this.lose = false;
@@ -55,11 +51,12 @@ export class MapComponent{
 
 
 	waitForConnection(callback: any, interval: any) {
-    if (this.ws.readyState === 1) {
-        callback();
-    } else {
-        setTimeout(() => { this.waitForConnection(callback, interval); }, interval);
-    }
+	    if (this.ws.readyState === 1) {
+	        callback();
+	    } 
+	    else {
+	        setTimeout(() => { this.waitForConnection(callback, interval); }, interval);
+	    }
 	};
 
 
@@ -129,18 +126,18 @@ export class MapComponent{
 		  	this.snakesColors = change.colors;
 		  	console.log(this.snakesColors);
 		  }
-
+		  else if (change.type == 'change_name') {
+		  	this.userName = change.name; 
+		  }
 		  else if (change.type == 'initial_food') {
 		  	change.data.forEach((element: any) => {
 		  		this.food.push(new Food(this.cWidth, this.cHeight, 20, this.ctxf, element.x, element.y, element.color));	
 		  	});
 		  } 
-
 		  else if (change.type == 'user_score') {
-		  	this.usersScore = change.score; 
+		  	this.usersScore = change.score.sort((a: any, b: any) => { return b.score - a.score }); 
 		  	console.log(change.score);
 		  } 
-
 		  else if (change.type == 'draw') {
 		  	this.snakeControl.drawAll(change);
 		  } 
@@ -192,11 +189,12 @@ export class MapComponent{
       	this.food.splice(this.food.indexOf(part), 1);
 
       	this.ws.send(JSON.stringify({
-			    type : 'destroy_food',
-			    x: part.x,
-			    y: part.y,
-			    name: this.userName
-			  }));
+		    type : 'destroy_food',
+		    x: part.x,
+		    y: part.y,
+		    name: this.userName,
+		    color: this.snakeColor
+	  	}));
 
       	this.snake.length += 1;
       	this.increaseScore.emit(1);
@@ -245,15 +243,4 @@ export class MapComponent{
     this.gameStatus.emit(false);
   }
 
-  snakeLengthControl() {
-    /*if (this.snake.coordinates.x.length >= this.snake.length) {
-      this.ws.send(JSON.stringify({
-		    type : 'clean',
-		    x: this.snake.coordinates.x[0],
-		    y: this.snake.coordinates.y[0]
-		  }));
-		  this.snake.coordinates.x.shift();
-      this.snake.coordinates.y.shift();
-    }*/
-  }
 }

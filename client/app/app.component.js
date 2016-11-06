@@ -13,8 +13,8 @@ var AppComponent = (function () {
     function AppComponent() {
         this.start = false;
         this.user = {
-            name: "Anoni",
-            color: "red"
+            name: "",
+            color: ""
         };
         this.score = 100;
     }

@@ -4,8 +4,8 @@
 	
 	<ul id="score-board">
 		<p>Score board: </p>	
-		<li *ngFor="let user of usersScore">
+		<li *ngFor="let user of usersScore"  [style.color] = "user.color">
 		   {{user.name}} : {{user.score}} 
 		</li>
 	</ul>
-</div>    
+</div>     
