@@ -48,7 +48,7 @@ let ws = new api.websocket.server({
 let clients = [];
 let food = [];
 let snakesColor = [];
-
+let userScore = [];
 
 
 ws.on('request', (req) => {
@@ -61,8 +61,8 @@ ws.on('request', (req) => {
     type: 'initial_food',
     data: food
   }));
-
-
+  
+  
   connection.on('message', (message) => {
     let dataName = message.type + 'Data',
         data = message[dataName];
@@ -70,11 +70,25 @@ ws.on('request', (req) => {
         
         if (type == 'destroy_food') {
           let dataObj = JSON.parse(data);
+          for (let scoreElem of userScore){
+            if (scoreElem.name == dataObj.name) {
+              scoreElem.score++;
+            }
+          }
+          sendUserScore();
           deleteFood(dataObj.x, dataObj.y);
         }
 
         else if (type == 'new_snake') {
-          snakesColor.push(JSON.parse(data).color);
+          data = JSON.parse(data);
+          snakesColor.push(data.color);
+          userScore.push({
+            name: data.name,
+            score: 100
+          })
+          sendUserScore();
+          connection.name = data.name;
+
           data = JSON.stringify({
             type: 'new_snake',
             colors: snakesColor
@@ -84,16 +98,23 @@ ws.on('request', (req) => {
         }
 
         else if (type == 'destroy_snake') {
-          snakesColor.splice(snakesColor.indexOf(JSON.parse(data).color), 1);
+          data = JSON.parse(data);
+          snakesColor.splice(snakesColor.indexOf(data.color), 1);
+          userScore = userScore.filter((elem) => { if(elem.name != data.name) return elem;});
+          sendUserScore();
           sendSnakeDataToEach(JSON.stringify({
             type: 'new_snake',
             colors: snakesColor
           }));
+          data = JSON.stringify(data);
         } 
-
       sendSnakeData(data, connection);
   });
+
   connection.on('close', (reasonCode, description) => {
+    userScore = userScore.filter((elem) => { if(elem.name != connection.name) return elem;});
+    sendUserScore();
+    clients.splice(clients.indexOf(connection), 1);
     console.log('Disconnected ' + connection.remoteAddress);
   });
 });
@@ -112,7 +133,14 @@ function sendSnakeDataToEach(data) {
   });
 }
 
-
+function sendUserScore() {
+  clients.forEach((client) => {
+      let data = {};
+      data.score = userScore;
+      data.type = "user_score";
+      client.send(JSON.stringify(data));  
+  });
+}
 
 /*Create food*/
 

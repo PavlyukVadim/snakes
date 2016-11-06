@@ -21,10 +21,13 @@ export class MapComponent{
 		
 
 	@Input() snakeColor: string;
+	@Input() userName: string;
 
 
 
 	snakesColors: Array<string> = [];
+	usersScore: Array<any> = [];
+
 
 	canvas: HTMLCanvasElement;
 	ctx: any;
@@ -79,11 +82,12 @@ export class MapComponent{
 	start() {
 	
 		this.waitForConnection(() => {
-      this.ws.send(JSON.stringify({
-	    	type: 'new_snake',
-	    	color: this.snakeColor
-	  	}));
-    }, 1000);
+	      this.ws.send(JSON.stringify({
+		    	type: 'new_snake',
+		    	color: this.snakeColor,
+		    	name: this.userName
+		  	}));
+	    }, 1000);
 
 
 		this.drawWall();
@@ -130,6 +134,11 @@ export class MapComponent{
 		  	change.data.forEach((element: any) => {
 		  		this.food.push(new Food(this.cWidth, this.cHeight, 20, this.ctxf, element.x, element.y, element.color));	
 		  	});
+		  } 
+
+		  else if (change.type == 'user_score') {
+		  	this.usersScore = change.score; 
+		  	console.log(change.score);
 		  } 
 
 		  else if (change.type == 'draw') {
@@ -185,7 +194,8 @@ export class MapComponent{
       	this.ws.send(JSON.stringify({
 			    type : 'destroy_food',
 			    x: part.x,
-			    y: part.y
+			    y: part.y,
+			    name: this.userName
 			  }));
 
       	this.snake.length += 1;
@@ -228,7 +238,8 @@ export class MapComponent{
   	this.ws.send(JSON.stringify({
 	    type: 'destroy_snake',
 	    coordinates: this.snake.coordinates,
-	    color: this.snakeColor
+	    color: this.snakeColor,
+	    name: this.userName
 	  }));
     delete this.snake;
     this.gameStatus.emit(false);

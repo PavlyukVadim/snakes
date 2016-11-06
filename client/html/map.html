@@ -1,4 +1,11 @@
-<div class="col-lg-7 col-md-6 col-lg-offset-1">
+<div id="maps">
 	<canvas #canvasFood id="map-food" width="700" height="500" style="position:absolute"></canvas>		
   	<canvas #canvas id="map" width="700" height="500" style="position:absolute"></canvas>
-</div>   
+	
+	<ul id="score-board">
+		<p>Score board: </p>	
+		<li *ngFor="let user of usersScore">
+		   {{user.name}} : {{user.score}} 
+		</li>
+	</ul>
+</div>    

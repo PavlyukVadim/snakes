@@ -15,13 +15,15 @@ var StartComponent = (function () {
         this.transferUser = new core_1.EventEmitter();
         this.start = false;
         this.user = {
-            name: "Anonim",
-            color: "red"
+            name: this.userName,
+            color: "ff5050"
         };
+        console.log(this.userName);
     }
     StartComponent.prototype.play = function () {
         this.start = true;
         this.transferUser.emit(this.user);
+        console.log(this.user);
     };
     StartComponent.prototype.inputName = function (value) {
         this.user.name = value;
@@ -30,6 +32,10 @@ var StartComponent = (function () {
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)
     ], StartComponent.prototype, "transferUser", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], StartComponent.prototype, "userName", void 0);
     StartComponent = __decorate([
         core_1.Component({
             selector: 'start-app',

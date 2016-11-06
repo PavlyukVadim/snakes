@@ -13,7 +13,7 @@ var AppComponent = (function () {
     function AppComponent() {
         this.start = false;
         this.user = {
-            name: "Anonim",
+            name: "Anoni",
             color: "red"
         };
         this.score = 100;
@@ -22,10 +22,8 @@ var AppComponent = (function () {
         this.start = true;
         this.user.name = user.name;
         this.user.color = user.color;
-        console.log(this.user);
     };
     AppComponent.prototype.increaseScore = function (value) {
-        console.log('1');
         this.score += 1;
     };
     AppComponent.prototype.gameStatus = function (flag) {

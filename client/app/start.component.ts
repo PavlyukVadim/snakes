@@ -12,18 +12,23 @@ let jumbotron: HTMLElement;
 export class StartComponent {
 	
 	@Output() transferUser: EventEmitter<User> = new EventEmitter<User>();
+	@Input() userName: string;
 
 	start: boolean = false;
 
 	user: User = {
-		name : "Anonim",
-		color : "red"
+		name: this.userName,
+		color: "ff5050"
 	};
-
+	
+	constructor() {
+		console.log(this.userName);
+	}
 
 	play() {
 		this.start = true;
 		this.transferUser.emit(this.user);
+		console.log(this.user);
 	}
 
   	inputName(value: string) {

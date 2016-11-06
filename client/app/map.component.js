@@ -18,6 +18,7 @@ var MapComponent = (function () {
         this.increaseScore = new core_1.EventEmitter();
         this.gameStatus = new core_1.EventEmitter();
         this.snakesColors = [];
+        this.usersScore = [];
         this.food = [];
         this.lose = false;
     }
@@ -46,7 +47,8 @@ var MapComponent = (function () {
         this.waitForConnection(function () {
             _this.ws.send(JSON.stringify({
                 type: 'new_snake',
-                color: _this.snakeColor
+                color: _this.snakeColor,
+                name: _this.userName
             }));
         }, 1000);
         this.drawWall();
@@ -82,6 +84,10 @@ var MapComponent = (function () {
                 change.data.forEach(function (element) {
                     _this.food.push(new food_1.Food(_this.cWidth, _this.cHeight, 20, _this.ctxf, element.x, element.y, element.color));
                 });
+            }
+            else if (change.type == 'user_score') {
+                _this.usersScore = change.score;
+                console.log(change.score);
             }
             else if (change.type == 'draw') {
                 _this.snakeControl.drawAll(change);
@@ -128,7 +134,8 @@ var MapComponent = (function () {
                 this.ws.send(JSON.stringify({
                     type: 'destroy_food',
                     x: part.x,
-                    y: part.y
+                    y: part.y,
+                    name: this.userName
                 }));
                 this.snake.length += 1;
                 this.increaseScore.emit(1);
@@ -157,7 +164,8 @@ var MapComponent = (function () {
         this.ws.send(JSON.stringify({
             type: 'destroy_snake',
             coordinates: this.snake.coordinates,
-            color: this.snakeColor
+            color: this.snakeColor,
+            name: this.userName
         }));
         delete this.snake;
         this.gameStatus.emit(false);
@@ -193,6 +201,10 @@ var MapComponent = (function () {
         core_1.Input(), 
         __metadata('design:type', String)
     ], MapComponent.prototype, "snakeColor", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], MapComponent.prototype, "userName", void 0);
     MapComponent = __decorate([
         core_1.Component({
             selector: 'map',
