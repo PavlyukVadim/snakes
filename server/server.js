@@ -66,8 +66,7 @@ ws.on('request', (req) => {
   connection.on('message', (message) => {
     let dataName = message.type + 'Data',
         data = message[dataName];
-        let type = JSON.parse(data).type; 
-        
+        let type = JSON.parse(data).type;
         
         if (type == 'destroy_food') {
           let dataObj = JSON.parse(data);

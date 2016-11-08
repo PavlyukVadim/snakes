@@ -1,37 +1,39 @@
 export class Snake{
 
-	INITIAL_LENGTH: number = 150;
+  INITIAL_LENGTH: number = 150;
   PIECE_SNAKE_RADIUS: number = 5.3;
   SPEED: number = 2;
   ROTATION_SPEED: number = 5;
   COLOR: string = '#ff5050';
-  
 
-	x: number;
-	y: number;
-	angle: number;
-	length: number;
-	ctx: any;
-	coordinates : {
-		x: Array<number>,
-		y: Array<number>
-	};
 
-	interval : any;
+  x: number;
+  y: number;
+  angle: number;
+  length: number;
+  ctx: any;
+  coordinates : {
+      x: Array<number>,
+      y: Array<number>
+  };
+  name: string;
+
+  interval : any;
   ws: WebSocket;
-	constructor(color: string, x: number, y: number, angle: number, length: number, ctx: any, ws: WebSocket) {
-		this.COLOR = color || this.COLOR;
+  constructor(color: string, x: number, y: number, angle: number, length: number, ctx: any, ws: WebSocket, name: string) {
+    this.COLOR = color || this.COLOR;
     this.ws = ws;
+    this.name = name;
     this.x = x;
-		this.y = y;
-		this.angle = angle;
-		this.length = length;
-		this.ctx = ctx;
-		this.coordinates = {
-    	x : [],
-    	y : []
+    this.y = y;
+    this.angle = angle;
+    this.length = length;
+    this.ctx = ctx;
+    this.coordinates = {
+      x : [],
+      y : []
   	};
-	}
+  }
 
   draw() {
     this.ctx.beginPath();
@@ -160,7 +162,7 @@ export class Snake{
       this.SPEED = 2;  
     }
     
-    this.x += this.SPEED * Math.cos(this.convertDegInRad(this.angle));
+    this.x += (this.SPEED * Math.cos(this.convertDegInRad(this.angle))) >> 0;
     this.y += this.SPEED * Math.sin(this.convertDegInRad(this.angle));
     this.pushCoordinates();
     this.draw();

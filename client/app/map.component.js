@@ -52,7 +52,7 @@ var MapComponent = (function () {
             }));
         }, 1000);
         this.drawWall();
-        this.snake = new snake_1.Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws);
+        this.snake = new snake_1.Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws, this.userName);
         this.snakeControl = new snakes_control_1.SnakesControl(this.ctx);
         this.snake.draw();
         this.snake.start({
@@ -68,7 +68,8 @@ var MapComponent = (function () {
                 type: 'draw',
                 x: _this.snake.x,
                 y: _this.snake.y,
-                COLOR: _this.snake.COLOR
+                COLOR: _this.snake.COLOR,
+                name: _this.userName
             }));
         }, 50);
         this.ws.onmessage = function (event) {
@@ -78,7 +79,6 @@ var MapComponent = (function () {
             change.PIECE_SNAKE_RADIUS = change.PIECE_SNAKE_RADIUS || _this.snake.PIECE_SNAKE_RADIUS;
             if (change.type == 'new_snake') {
                 _this.snakesColors = change.colors;
-                console.log(_this.snakesColors);
             }
             else if (change.type == 'change_name') {
                 _this.userName = change.name;
@@ -90,7 +90,6 @@ var MapComponent = (function () {
             }
             else if (change.type == 'user_score') {
                 _this.usersScore = change.score.sort(function (a, b) { return b.score - a.score; });
-                console.log(change.score);
             }
             else if (change.type == 'draw') {
                 _this.snakeControl.drawAll(change);

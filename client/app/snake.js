@@ -1,6 +1,6 @@
 "use strict";
 var Snake = (function () {
-    function Snake(color, x, y, angle, length, ctx, ws) {
+    function Snake(color, x, y, angle, length, ctx, ws, name) {
         this.INITIAL_LENGTH = 150;
         this.PIECE_SNAKE_RADIUS = 5.3;
         this.SPEED = 2;
@@ -8,6 +8,7 @@ var Snake = (function () {
         this.COLOR = '#ff5050';
         this.COLOR = color || this.COLOR;
         this.ws = ws;
+        this.name = name;
         this.x = x;
         this.y = y;
         this.angle = angle;
@@ -126,7 +127,7 @@ var Snake = (function () {
         else {
             this.SPEED = 2;
         }
-        this.x += this.SPEED * Math.cos(this.convertDegInRad(this.angle));
+        this.x += (this.SPEED * Math.cos(this.convertDegInRad(this.angle))) >> 0;
         this.y += this.SPEED * Math.sin(this.convertDegInRad(this.angle));
         this.pushCoordinates();
         this.draw();

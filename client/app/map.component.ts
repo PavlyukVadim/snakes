@@ -25,7 +25,6 @@ export class MapComponent{
 	snakesColors: Array<string> = [];
 	usersScore: Array<any> = [];
 
-
 	canvas: HTMLCanvasElement;
 	ctx: any;
 
@@ -88,7 +87,7 @@ export class MapComponent{
 
 
 		this.drawWall();
-		this.snake = new Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws);
+		this.snake = new Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws, this.userName);
 		this.snakeControl = new SnakesControl(this.ctx);		
 
 		this.snake.draw();
@@ -110,7 +109,8 @@ export class MapComponent{
 		    type : 'draw',
 		    x: this.snake.x,
 		    y: this.snake.y,
-		    COLOR : this.snake.COLOR
+		    COLOR : this.snake.COLOR,
+			name: this.userName
 		  }));
 		}, 50);
 
@@ -124,7 +124,6 @@ export class MapComponent{
 		  
 		  if (change.type == 'new_snake') {
 		  	this.snakesColors = change.colors;
-		  	console.log(this.snakesColors);
 		  }
 		  else if (change.type == 'change_name') {
 		  	this.userName = change.name; 
@@ -135,10 +134,10 @@ export class MapComponent{
 		  	});
 		  } 
 		  else if (change.type == 'user_score') {
-		  	this.usersScore = change.score.sort((a: any, b: any) => { return b.score - a.score }); 
-		  	console.log(change.score);
+		  	this.usersScore = change.score.sort((a: any, b: any) => { return b.score - a.score });
 		  } 
 		  else if (change.type == 'draw') {
+
 		  	this.snakeControl.drawAll(change);
 		  } 
 		  else if (change.type == 'clean') {
