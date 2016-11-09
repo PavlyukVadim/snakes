@@ -87,7 +87,11 @@ export class MapComponent{
 
 
 		this.drawWall();
-		this.snake = new Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws, this.userName);
+
+		let innilialX: number = ((Math.random() * (this.cWidth - 200)) + 100) >> 0;
+		let innilialY: number = ((Math.random() * (this.cHeight - 200)) + 100) >> 0;
+
+		this.snake = new Snake(this.snakeColor, innilialX, innilialY, 2, 30, this.ctx, this.ws, this.userName);
 		this.snakeControl = new SnakesControl(this.ctx);		
 
 		this.snake.draw();
@@ -97,7 +101,6 @@ export class MapComponent{
 			mapW: this.cWidth,
 			mapH: this.cHeight
 		});
-
 
 
 		this.findCollisionsIntr = setInterval(() => {
@@ -112,7 +115,7 @@ export class MapComponent{
 		    COLOR : this.snake.COLOR,
 			name: this.userName
 		  }));
-		}, 50);
+		}, 20);
 
 		
 

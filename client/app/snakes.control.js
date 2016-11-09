@@ -26,12 +26,12 @@ var SnakesControl = (function () {
             this.setPrevCoordinate(snake.name, snake.x, snake.y);
             return;
         }
-        /*this.ctx.beginPath();
+        this.ctx.beginPath();
         this.ctx.globalCompositeOperation = 'source-over';
         this.ctx.fillStyle = snake.COLOR;
         this.ctx.arc(snake.x, snake.y, snake.PIECE_SNAKE_RADIUS, 0, 2 * Math.PI);
         this.ctx.fill();
-        this.ctx.closePath();*/
+        this.ctx.closePath();
         this.setPrevCoordinate(snake.name, snake.x, snake.y);
     };
     SnakesControl.prototype.getPrevCoordinate = function (name) {

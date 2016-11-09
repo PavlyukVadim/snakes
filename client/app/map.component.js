@@ -52,7 +52,9 @@ var MapComponent = (function () {
             }));
         }, 1000);
         this.drawWall();
-        this.snake = new snake_1.Snake(this.snakeColor, 100, 100, 2, 30, this.ctx, this.ws, this.userName);
+        var innilialX = ((Math.random() * (this.cWidth - 200)) + 100) >> 0;
+        var innilialY = ((Math.random() * (this.cHeight - 200)) + 100) >> 0;
+        this.snake = new snake_1.Snake(this.snakeColor, innilialX, innilialY, 2, 30, this.ctx, this.ws, this.userName);
         this.snakeControl = new snakes_control_1.SnakesControl(this.ctx);
         this.snake.draw();
         this.snake.start({
@@ -71,7 +73,7 @@ var MapComponent = (function () {
                 COLOR: _this.snake.COLOR,
                 name: _this.userName
             }));
-        }, 50);
+        }, 20);
         this.ws.onmessage = function (event) {
             if (_this.lose)
                 return;

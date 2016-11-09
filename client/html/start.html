@@ -1,12 +1,12 @@
 <div class="jumbotron">
-    <h1>Hi<span *ngIf="user.name">, </span>{{user.name}}!</h1>
+    <h1>Hi<span *ngIf="user.name">, </span> <span [style.color] = "user.color">{{user.name}}!</span></h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium pariatur illo debitis aut minima dignissimos, consequatur, id. Totam illum dolor veritatis dignissimos, eaque, dolores, harum sit atque, magni voluptates laudantium.</p>
     <div class="center-block">
       <form class="form-horizontal" role="form">
         <div class="form-group">
           <label for="inputText3" class="col-sm-2 control-label">Login : </label>
           <div class="col-sm-10">
-            <input #box (keyup)="inputName(box.value)" type="text" class="form-control" id="inputText3" placeholder="Login" value={{user.name}}>
+            <input #box (keyup)="inputName(box.value)" type="text" class="form-control" id="inputText3" placeholder="Login" [style.color] = "user.color" value={{user.name}}>
           </div>
         </div>
         <div class="form-group">
