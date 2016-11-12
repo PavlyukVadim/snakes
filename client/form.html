@@ -1,1 +1,73 @@
-<h1>Form</h1>
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Форма обратной связи</title>
+
+    <link rel="stylesheet" href="libs/bootstrap.css">
+
+    <script src="libs/jquery-3.0.0.min.js" defer></script>
+    <script src="libs/bootstrap.js" defer></script>
+
+
+    <link rel="stylesheet" href="styles/form.css">
+    <link rel="stylesheet" type="text/css" media="all" href="http://fonts.googleapis.com/css?family=Skranji:400,700|Oxygen:400,700">
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Snakes</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav">
+                <li><a href="../instruction.html">Instruction</a></li>
+                <li><a href="../form.html">Сontact us</a></li>
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+<div id="w">
+    <h1>Форма обратной связи</h1>
+    <form id="contactform" name="contact" method="post" action="http://127.0.0.1:8081/form">
+
+        <div class="row">
+            <label for="name">First Name: <span class="req">*</span></label>
+            <input type="text" name="name" value="" id="name" class="txt" placeholder="First Name " tabindex="2"  required/>
+        </div>
+
+        <div class="row">
+            <label for="email">Email: <span class="req">*</span></label>
+            <input type="email" name="email" value="" id="email" class="txt" placeholder="Email " tabindex="2"  required/>
+        </div>
+
+        <div class="row">
+          <label for="message">Сообщение <span class="req">*</span></label>
+          <textarea name="message" id="message" class="txtarea" tabindex="4" placeholder="Вашe сообщение" required></textarea>
+        </div>
+
+        <div class="center">
+            <input type="submit" id="submitbtn" name="submitbtn" tabindex="5" value="Отправить">
+        </div>
+
+    </form>
+</div>
+</body>
+</html>
