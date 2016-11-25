@@ -119,7 +119,7 @@ var MapComponent = (function () {
         });
     };
     MapComponent.prototype.drawWall = function () {
-        this.ctxf.strokeStyle = "#f00";
+        this.ctxf.strokeStyle = "#FF9000";
         this.ctxf.setLineDash([5, 15]);
         this.ctxf.strokeRect(0 + THICNESS_WALL, 0 + THICNESS_WALL, this.cWidth - 2 * THICNESS_WALL, this.cHeight - 2 * THICNESS_WALL);
         this.ctxf.stroke();
