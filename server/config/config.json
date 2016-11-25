@@ -1,0 +1,12 @@
+{
+  "mongoose": {
+    "uri": "mongodb://localhost/snake",
+    "options": {
+      "server": {
+        "socketOptions": {
+          "keepAlive": 1
+        }
+      }
+    }
+  }
+}
