@@ -14,7 +14,7 @@ api.nodemailer = require('nodemailer');
 // create reusable transporter object using the default SMTP transport
 var transporter = api.nodemailer.createTransport('smtps://pavlyuk.dev%40gmail.com:pv300108@smtp.gmail.com');
 
-let base = '/home/amadev/Рабочий стол/snakes/client';
+let base = '/home/amadev/kpi/OKL/Snakes/client';
 
 let index = api.fs.readFileSync('../client/index.html');
 
