@@ -28,6 +28,9 @@ coverage
 build/Release
 
 # Dependency directories
+
+client/node_modules
+server/node_modules
 node_modules
 jspm_packages
 
