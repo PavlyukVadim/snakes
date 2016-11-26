@@ -378,6 +378,9 @@ nav{
 #sing-in{
   color: #fff;
   background: #FF9000;
+  position: absolute;
+  top: 0;
+  z-index: 999;
 }
 
 .navbar-default {
@@ -547,3 +550,26 @@ h1 {
   border: 0px solid #999;
 }
 
+
+#blink {
+  -webkit-animation: blink 2s linear infinite;
+  animation: blink 2s linear infinite;
+  font-weight: bold;
+  color: color: #F00;
+}
+
+#blink:hover{
+  cursor: pointer;
+}
+
+@-webkit-keyframes blink {
+  0% { color: #F00; }
+  50% { color: #ff9000; }
+  100% { color: #F00; }
+}
+
+@keyframes blink {
+  0% { color: #F00; }
+  50% { color: #ff9000; }
+  100% { color: #F00; }
+}

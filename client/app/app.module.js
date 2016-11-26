@@ -10,9 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
+var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
 var start_component_1 = require('./start.component');
 var map_component_1 = require('./map.component');
+var login_component_1 = require('./login.component');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -20,11 +22,13 @@ var AppModule = (function () {
         core_1.NgModule({
             imports: [
                 platform_browser_1.BrowserModule,
+                http_1.HttpModule,
             ],
             declarations: [
                 app_component_1.AppComponent,
                 start_component_1.StartComponent,
-                map_component_1.MapComponent
+                map_component_1.MapComponent,
+                login_component_1.LoginComponent
             ],
             bootstrap: [app_component_1.AppComponent]
         }), 
