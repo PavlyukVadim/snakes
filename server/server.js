@@ -9,6 +9,9 @@ api.websocket = require('websocket');
 api.pathExists = require('path-exists');
 api.qs = require('querystring');
 api.nodemailer = require('nodemailer');
+api.async = require('async');
+
+var User = require('./models/user').User;
 
 
 // create reusable transporter object using the default SMTP transport
@@ -46,6 +49,34 @@ let server = api.http.createServer((req, res) => {
 
       var userData = JSON.parse(body);
       if (userData.login) {
+
+
+        api.async.waterfall([
+            function (callback) {
+              User.findOne({username: userData.login}, callback);
+            },
+            function (user, callback) {
+              if (user) {
+                if (user.checkPassword(userData.password)) {
+                  callback(null, user);
+                } else {
+                  res.writeHead(404);
+                  res.end("Wrong password");
+                }
+              } else {
+                var user = new User({username: userData.login, password: userData.password });
+                user.save(function (err) {
+                  if (err) return;
+                  callback(null, user);
+                })
+              }
+            }
+        ],  function (err, user) {
+              if (err) return;
+              res.writeHead(200);
+              res.end(JSON.stringify(user));
+            }
+        );
         console.log("login: " + userData.login);
         console.log("pass: " + userData.password);
       }
