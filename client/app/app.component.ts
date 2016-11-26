@@ -8,8 +8,6 @@ import { User } from './user';
 
 export class AppComponent {
 
-
-	
   start: boolean = false; 
   user: User = { 
 		name : "",
@@ -30,5 +28,6 @@ export class AppComponent {
 
   gameStatus(flag: boolean){
     this.start = flag;
+
   }
 }

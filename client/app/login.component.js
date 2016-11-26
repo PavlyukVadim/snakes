@@ -20,9 +20,27 @@ var LoginComponent = (function () {
     }
     LoginComponent.prototype.onSubmit = function () {
         var _this = this;
-        this.submitted = true;
-        this._httpService.postUserData("amadev", "qwerty")
-            .subscribe(function (data) { return _this.getData = JSON.stringify(data); }, function (error) { return alert(error); }, function () { return console.log("Finish: " + _this.getData); });
+        //click Log in
+        if (!this.submitted) {
+            this._httpService.postUserData(this.login, this.password)
+                .subscribe(function (data) { return _this.getData = JSON.stringify(data); }, function (error) { return alert(error); }, function () {
+                _this.submitted = true;
+                _this.userData = JSON.parse(_this.getData);
+                //alert("Finish: " + );
+                console.log(_this.userData);
+            });
+        }
+        else {
+            this.login = "";
+            this.password = "";
+            this.submitted = false;
+        }
+    };
+    LoginComponent.prototype.onKeyLogin = function (value) {
+        this.login = value;
+    };
+    LoginComponent.prototype.onKeyPass = function (value) {
+        this.password = value;
     };
     LoginComponent = __decorate([
         core_1.Component({

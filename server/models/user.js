@@ -4,7 +4,7 @@ var mongoose = require('../libs/mongoose'),
     Schema = mongoose.Schema;
 
 var schema = new Schema({
-   username: {
+    username: {
        type: String,
        unique: true,
        required: true
@@ -20,7 +20,12 @@ var schema = new Schema({
     created: {
         type: Date,
         default: Date.now
+    },
+    gamePlayed: {
+        type: Number,
+        default: 0
     }
+
 });
 
  schema.methods.encryptPassword = function (password) {
