@@ -21,7 +21,7 @@ var LoginComponent = (function () {
     LoginComponent.prototype.onSubmit = function () {
         var _this = this;
         this.submitted = true;
-        this._httpService.getHeroes()
+        this._httpService.postUserData("amadev", "qwerty")
             .subscribe(function (data) { return _this.getData = JSON.stringify(data); }, function (error) { return alert(error); }, function () { return console.log("Finish: " + _this.getData); });
     };
     LoginComponent = __decorate([

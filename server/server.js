@@ -19,10 +19,11 @@ let base = '/home/amadev/kpi/OKL/Snakes/client';
 let index = api.fs.readFileSync('../client/index.html');
 
 let server = api.http.createServer((req, res) => {
+  var postReg = false;
   var mail = false;
   if (req.method == 'POST') {
+    postReg = true;
     var body = '';
-    mail = true;
     req.on('data', function (data) {
       body += data;
 
@@ -35,16 +36,23 @@ let server = api.http.createServer((req, res) => {
     req.on('end', function () {
       var post = api.qs.parse(body);
       if (post.name) {
-
+        mail = true;
         sendMail(post);
         res.writeHead(200);
         res.write('<h1>Message sent</h1>\n');
         res.end();
+        return;
+      }
+
+      var userData = JSON.parse(body);
+      if (userData.login) {
+        console.log("login: " + userData.login);
+        console.log("pass: " + userData.password);
       }
     });
 
   }
-  if(mail) return;
+  if(mail || postReg) return;
   let pathname = base + req.url;
 
   api.pathExists(pathname).then(exists => {
@@ -53,6 +61,7 @@ let server = api.http.createServer((req, res) => {
     res.write('Bad request 404\n');
     res.end();
   }
+
   else {
     res.statusCode = 200;
     if (req.url == '/') pathname += 'index.html';

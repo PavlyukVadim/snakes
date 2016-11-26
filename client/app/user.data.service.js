@@ -13,19 +13,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-//import { Hero }           from './hero';
 var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/catch');
 var UserDataService = (function () {
     function UserDataService(http) {
         this.http = http;
-        this.heroesUrl = 'http://date.jsontest.com'; // URL to web API
+        this.heroesUrl = '/user-login'; // URL to web API
     }
-    UserDataService.prototype.getHeroes = function () {
+    /*getHeroes (){
         return this.http.get(this.heroesUrl)
-            .map(/*res => res.json()*/ this.extractData);
-        //.catch(this.handleError);
+            .map(his.extractData);
+            //.catch(this.handleError);
+    }*/
+    UserDataService.prototype.postUserData = function (userLogin, userPass) {
+        var json = JSON.stringify({ login: userLogin, password: userPass });
+        console.log(json);
+        var params = json;
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post('/user-login', params, {
+            headers: headers
+        })
+            .map(function (res) { return res.json(); });
     };
     UserDataService.prototype.extractData = function (res) {
         var body = res.json();

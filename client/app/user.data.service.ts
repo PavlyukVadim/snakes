@@ -2,8 +2,7 @@
  * Created by amadev on 26.11.16.
  */
 import { Injectable }     from '@angular/core';
-import { Http, Response } from '@angular/http';
-//import { Hero }           from './hero';
+import {Http, Response, Headers} from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -14,13 +13,26 @@ export class UserDataService {
 
     date: string;
 
-    private heroesUrl = 'http://date.jsontest.com';  // URL to web API
+    private heroesUrl = '/user-login';  // URL to web API
     constructor (private http: Http) {}
-    getHeroes (){
+    /*getHeroes (){
         return this.http.get(this.heroesUrl)
-            .map(/*res => res.json()*/this.extractData);
+            .map(his.extractData);
             //.catch(this.handleError);
+    }*/
+
+    postUserData (userLogin: string, userPass: string){
+        var json = JSON.stringify({login: userLogin, password: userPass});
+        console.log(json);
+        var params = json;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        return this.http.post('/user-login', params, {
+            headers: headers
+        })
+        .map(res => res.json());
     }
+
     private extractData(res: Response) {
         let body = res.json();
         return body.date || { };

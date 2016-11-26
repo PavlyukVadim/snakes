@@ -21,12 +21,13 @@ export class LoginComponent {
     submitted = false;
     onSubmit() {
         this.submitted = true;
-        this._httpService.getHeroes()
-            .subscribe(
-                data => this.getData = JSON.stringify(data),
-                error => alert(error),
-                () => console.log("Finish: " + this.getData)
-            );
+
+        this._httpService.postUserData("amadev", "qwerty")
+         .subscribe(
+            data => this.getData = JSON.stringify(data),
+            error => alert(error),
+            () => console.log("Finish: " + this.getData)
+         );
     }
 }
 
