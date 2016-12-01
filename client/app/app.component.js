@@ -9,8 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var update_user_servise_1 = require('./update.user.servise');
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(_httpService) {
+        this._httpService = _httpService;
         this.start = false;
         this.user = {
             name: "",
@@ -26,15 +28,28 @@ var AppComponent = (function () {
     AppComponent.prototype.increaseScore = function (value) {
         this.score += 1;
     };
+    AppComponent.prototype.getUser = function (user_) {
+        var _this = this;
+        this.userLogin = user_.login;
+        this.userPass = user_.password;
+        if (this.userLogin) {
+            this._httpService.postUserData(this.userLogin, this.userPass)
+                .subscribe(function (data) { return _this.getData = JSON.stringify(data); }, 
+            //error => alert(error),
+            function () {
+            });
+        }
+    };
     AppComponent.prototype.gameStatus = function (flag) {
         this.start = flag;
     };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            templateUrl: 'html/app.html'
+            templateUrl: 'html/app.html',
+            providers: [update_user_servise_1.UpdateUserService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [update_user_servise_1.UpdateUserService])
     ], AppComponent);
     return AppComponent;
 }());

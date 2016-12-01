@@ -16,6 +16,7 @@ var user_data_service_1 = require('./user.data.service');
 var LoginComponent = (function () {
     function LoginComponent(_httpService) {
         this._httpService = _httpService;
+        this.gameStatus = new core_1.EventEmitter();
         this.submitted = false;
     }
     LoginComponent.prototype.onSubmit = function () {
@@ -23,8 +24,12 @@ var LoginComponent = (function () {
         //click Log in
         if (!this.submitted) {
             this._httpService.postUserData(this.login, this.password)
-                .subscribe(function (data) { return _this.getData = JSON.stringify(data); }, function (error) { return alert(error); }, function () {
+                .subscribe(function (data) { return _this.getData = JSON.stringify(data); }, 
+            //error => alert(error),
+            function (error) { return alert("Wrong password!!!"); }, function () {
                 _this.submitted = true;
+                _this.gameStatus.emit({ login: _this.login,
+                    password: _this.password });
                 _this.userData = JSON.parse(_this.getData);
                 //alert("Finish: " + );
                 console.log(_this.userData);
@@ -34,6 +39,8 @@ var LoginComponent = (function () {
             this.login = "";
             this.password = "";
             this.submitted = false;
+            this.gameStatus.emit({ login: this.login,
+                password: this.password });
         }
     };
     LoginComponent.prototype.onKeyLogin = function (value) {
@@ -42,6 +49,10 @@ var LoginComponent = (function () {
     LoginComponent.prototype.onKeyPass = function (value) {
         this.password = value;
     };
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], LoginComponent.prototype, "gameStatus", void 0);
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'login-app',

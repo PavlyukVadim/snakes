@@ -10,6 +10,7 @@
 
             <div class="login-form">
                 <h1>Snakes</h1>
+                <p style="margin-bottom: 10px">Authorization and registration (If user does not exist - it will be created).</p>
                 <div *ngIf="!submitted" class="form-group">
                     <input #login type="text" class="form-control" placeholder="Username" id="UserName" (keyup)="onKeyLogin(login.value)">
                     <i class="fa fa-user"></i>
@@ -21,9 +22,9 @@
 
                 <div *ngIf="submitted" class="container">
                     <label><i class="fa fa-user" aria-hidden="true"></i> Login: </label><span>{{userData.username}}</span><br>
-                    <label><i class="fa fa-star" aria-hidden="true"></i> Best score: </label><span>aaaa</span><br>
+                    <!--<label><i class="fa fa-star" aria-hidden="true"></i> Best score: </label><span> 0 </span><br>-->
                     <label><i class="fa fa-gamepad" aria-hidden="true"></i> Games played: </label><span>{{userData.gamePlayed}}</span><br>
-                    <label><i class="fa fa-calendar" aria-hidden="true"></i>
+                    <label style="margin-bottom: 10px"><i class="fa fa-calendar" aria-hidden="true"></i>
                         Registration: </label><span>{{userData.created}}</span><br>
                 </div>
 

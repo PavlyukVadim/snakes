@@ -12,6 +12,8 @@ import { UserDataService } from  './user.data.service';
 
 export class LoginComponent {
 
+    @Output() gameStatus = new EventEmitter<any>();
+
     getData: string;
     login: string;
     password: string;
@@ -27,9 +29,13 @@ export class LoginComponent {
             this._httpService.postUserData(this.login, this.password)
                 .subscribe(
                     data => this.getData = JSON.stringify(data),
-                    error => alert(error),
+                    //error => alert(error),
+                    error => alert("Wrong password!!!"),
                     () => {
                         this.submitted = true;
+                        this.gameStatus.emit({login: this.login,
+                                              password: this.password}
+                                            );
                         this.userData = JSON.parse(this.getData);
                         //alert("Finish: " + );
                         console.log(this.userData);
@@ -41,6 +47,9 @@ export class LoginComponent {
             this.login = "";
             this.password = "";
             this.submitted = false;
+            this.gameStatus.emit({login: this.login,
+                password: this.password}
+            );
         }
     }
 

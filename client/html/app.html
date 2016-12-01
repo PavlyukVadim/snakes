@@ -26,10 +26,10 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<login-app></login-app>
+<login-app (gameStatus)='getUser($event)' ></login-app>
 
 <div class='row'>  
-  <map *ngIf="start" (increaseScore)='increaseScore($event)' (gameStatus)='gameStatus($event)' [snakeColor]="user.color"   
+  <map *ngIf="start" (increaseScore)='increaseScore($event)' (gameStatus)='gameStatus($event)' [snakeColor]="user.color"
   [userName]="user.name"></map>  
 </div>
 
