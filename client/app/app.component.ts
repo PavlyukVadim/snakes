@@ -16,7 +16,7 @@ export class AppComponent {
 
 	score: number = 100;
 
-	onTransferUser(user: User):void {
+    onTransferUser(user: User):void {
     this.start = true;
     this.user.name = user.name;
     this.user.color = user.color;

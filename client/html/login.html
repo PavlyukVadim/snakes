@@ -1,5 +1,6 @@
 <button id="sing-in" type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target=".bs-example-modal-sm">
-    <i class="fa fa-user-o" aria-hidden="true"></i> <span *ngIf="!submitted">Войти</span><span *ngIf="submitted">Выйти</span>
+    <i *ngIf="!submitted" class="fa fa-user-o" aria-hidden="true"></i> <span *ngIf="!submitted">Войти</span>
+    <i *ngIf="submitted" class="fa fa-sign-out" aria-hidden="true"></i> <span *ngIf="submitted">Выйти</span>
 </button>
 
 

@@ -1,16 +1,16 @@
-<div class="jumbotron">
+<div class="jumbotron cool-background">
     <h1>Hi<span *ngIf="user.name">, </span> <span>{{user.name}}!</span></h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium pariatur illo debitis aut minima dignissimos, consequatur, id. Totam illum dolor veritatis dignissimos, eaque, dolores, harum sit atque, magni voluptates laudantium.</p>
+    <p class="jumb-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium pariatur illo debitis aut minima dignissimos, consequatur, id. Totam illum dolor veritatis dignissimos, eaque, dolores, harum sit atque, magni voluptates laudantium.</p>
     <div class="center-block">
       <form class="form-horizontal" role="form">
         <div class="form-group">
-          <label for="inputText3" class="col-sm-2 control-label">Login : </label>
-          <div class="col-sm-10">
-            <input #box (keyup)="inputName(box.value)" type="text" class="form-control" id="inputText3" placeholder="Login" [style.color] = "user.color" value={{user.name}}>
+          <label for="inputText3" class="col-xs-2 col-sm-2 control-label">Login : </label>
+          <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+            <input style="border-radius: 40px;" #box (keyup)="inputName(box.value)" type="text" class="form-control" id="inputText3" placeholder="Login" [style.color] = "user.color" value={{user.name}}>
           </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">Color : </label>
+          <label class="col-xs-2 col-sm-2 control-label">Color : </label>
           <div class="col-sm-10">
             <ul class="colors">
               <li><div id="red" (click)="user.color = '#ff5050' "></div></li>
@@ -20,9 +20,20 @@
           </div>
         </div>
       </form>
-      <button type="button" id="play" class="btn btn-default btn-lg" (click)="play()">
+
+      <div class="col-sm-12 col-md-12" style="padding-left: 50%;">
+        <a class="button" (click)="play()">
+          <span>Play</span>
+        </a>
+      </div>
+
+      <!--<a type="button" id="play" class="btn btn-default btn-lg" (click)="play()">
         <span class="glyphicon glyphicon-play
 glyphicon"></span> Play
-      </button>
+      </a>-->
     </div>
-</div> 
+</div>
+
+<div class="jumbotron-mobile">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aspernatur commodi consectetur consequatur corporis, cumque debitis distinctio eum excepturi exercitationem harum laboriosam, magnam nam pariatur provident ratione, sapiente sit velit!</p>
+</div>
