@@ -48,9 +48,32 @@ let server = api.http.createServer((req, res) => {
       }
 
       var userData = JSON.parse(body);
+
+      if (userData.update) {
+        console.log("aaaaaaaaaaa");
+
+        api.async.waterfall([
+          function (callback) {
+            User.findOne({username: userData.login}, callback);
+          },
+          function (user, callback) {
+            User.findOneAndUpdate({username: userData.login}, {gamePlayed: user.gamePlayed + 1}, {upsert:true}, function(err, doc){
+              if (err) return res.send(500, { error: err });
+              return res.end("succesfully saved");
+            });
+          }
+        ],  function (err, user) {
+          if (err) return;
+          res.writeHead(200);
+          res.end(JSON.stringify(user));
+        }
+
+        );
+      }
+
+
+
       if (userData.login) {
-
-
         api.async.waterfall([
             function (callback) {
               User.findOne({username: userData.login}, callback);
@@ -80,6 +103,8 @@ let server = api.http.createServer((req, res) => {
         console.log("login: " + userData.login);
         console.log("pass: " + userData.password);
       }
+
+
     });
 
   }
