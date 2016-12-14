@@ -8,7 +8,9 @@
   <title>Hello Snakes</title>
   <link href="description/css/bootstrap.min.css" rel="stylesheet">
   <link href="description/css/animate.min.css" rel="stylesheet"> 
-  <link href="description/css/font-awesome.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!--<link href="description/css/font-awesome.min.css" rel="stylesheet">-->
   <link href="description/css/lightbox.css" rel="stylesheet">
   <link href="description/css/main.css" rel="stylesheet">
   <link id="css-preset" href="description/css/presets/preset1.css" rel="stylesheet">
@@ -597,29 +599,49 @@
         <div class="contact-form wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
           <div class="row">
             <div class="col-sm-6">
-              <form id="main-contact-form" name="contact-form" method="post" action="#">
+              <form id="contactform" name="contact" method="post" action="http://127.0.0.1:8081/form">
                 <div class="row  wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
-                  <div class="col-sm-6">
+                  <div class="col-sm-12">
                     <div class="form-group">
-                      <input type="text" name="name" class="form-control" placeholder="Name" required="required">
+                      <input type="text" name="name" value="" id="name" class="form-control" placeholder="Name " tabindex="2"  required/>
                     </div>
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-12">
                     <div class="form-group">
-                      <input type="email" name="email" class="form-control" placeholder="Email Address" required="required">
+                      <input type="email" name="email" value="" id="email" class="form-control" placeholder="Email Address" tabindex="2"  required/>
                     </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <input type="text" name="subject" class="form-control" placeholder="Subject" required="required">
                 </div>
                 <div class="form-group">
                   <textarea name="message" id="message" class="form-control" rows="4" placeholder="Enter your message" required="required"></textarea>
-                </div>                        
+                </div>
                 <div class="form-group">
                   <button type="submit" class="btn-submit">Send Now</button>
                 </div>
-              </form>   
+              </form>
+              <!--<form id="contactform" name="contact" method="post" action="http://127.0.0.1:8081/form">
+
+                <div class="row">
+                  <label for="name">First Name: <span class="req">*</span></label>
+                  <input type="text" name="name" value="" id="name" class="txt" placeholder="First Name " tabindex="2"  required/>
+                </div>
+
+                <div class="row">
+                  <label for="email">Email: <span class="req">*</span></label>
+                  <input type="email" name="email" value="" id="email" class="txt" placeholder="Email " tabindex="2"  required/>
+                </div>
+
+                <div class="row">
+                  <label for="message">Сообщение <span class="req">*</span></label>
+                  <textarea name="message" id="message" class="txtarea" tabindex="4" placeholder="Вашe сообщение" required></textarea>
+                </div>
+
+                <div class="center">
+                  <input type="submit" id="submitbtn" name="submitbtn" tabindex="5" value="Отправить">
+                </div>
+
+              </form>-->
+
             </div>
             <div class="col-sm-6">
               <div class="contact-info wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="300ms">
