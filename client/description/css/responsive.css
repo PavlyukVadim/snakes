@@ -75,6 +75,9 @@
 		padding-bottom: 8px;
 		padding-top: 10px;
 	}
+	.main-nav h1{
+  		display: none;
+	}
 
 	/*services*/
 	section {
