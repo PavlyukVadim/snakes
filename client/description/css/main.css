@@ -319,8 +319,13 @@ section {
 ********About CSS*******
 **************************/
 #about-us {
-  background-image: url(../images/about-bg.jpg);
+  background-image: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../images/technology.jpeg);
+  // url(../images/about-bg.jpg);
   padding: 60px 0;
+}
+
+#about-us > div > div.row > div:nth-child(1) > div > img {
+  max-width: 80%;
 }
 
 #about-us h2 {
