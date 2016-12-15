@@ -1,5 +1,5 @@
 <div class="jumbotron cool-background">
-    <h1>Hi<span *ngIf="user.name">, </span> <span>{{user.name}}!</span></h1>
+    <h1>Hi<span *ngIf="user.name">, </span> <span class="sp-name">{{user.name}}!</span></h1>
     <p class="jumb-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium pariatur illo debitis aut minima dignissimos, consequatur, id. Totam illum dolor veritatis dignissimos, eaque, dolores, harum sit atque, magni voluptates laudantium.</p>
     <div class="center-block">
       <form class="form-horizontal" role="form">
@@ -21,9 +21,9 @@
         </div>
       </form>
 
-      <div class="col-sm-12 col-md-12" style="padding-left: 50%;">
-        <a class="button" (click)="play()">
-          <span>Play</span>
+      <div class="col-sm-12 col-md-12 div-start">
+        <a class="button btn btn-start" (click)="play()">
+          <span>START NOW</span>
         </a>
       </div>
 

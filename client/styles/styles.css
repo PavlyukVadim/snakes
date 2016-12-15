@@ -1,6 +1,8 @@
 body, div, h1, p, .row{
   padding: 0;
   margin: 0;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1{
@@ -34,8 +36,22 @@ ul{
   width: 100%;
   height: 100%;
   z-index: 999;
-  padding: 100px 50px; 
+  padding: 100px 50px;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../description/images/main.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+.jumbotron h1{
+  color: #fff;
+  text-align: center;
+}
+
+
+.jumbotron h1 .sp-name{
+  color: #028fcc;
+}
+
 .center-block{
   width: 500px;
 }
@@ -52,7 +68,7 @@ ul{
 }
 
 .colors li div:hover{
-  border: 3px solid #FF9000;;
+  border: 3px solid #028fcc;
   cursor: pointer;
 }
 
@@ -404,30 +420,6 @@ footer .navbar-default{
   height: 100%;
 }
 
-footer .navbar-default{
-  background-color: #FF4E50;
-}
-
-.form-control:focus {
-  border-color: #FF9000;
-  outline: 0;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,0), 0 0 8px rgba(0, 0, 0, 0);
-}
-
-@import url(http://fonts.googleapis.com/css?family=Vibur);
-* {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  font-family: arial;
-}
-
-h1 {
-  color: #ff9000;
-  text-align: center;
-  font-size: 50px;
-}
-
 .login-form {
   width: 350px;
   padding: 40px 30px;
@@ -462,10 +454,6 @@ h1 {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
-}
-.form-control:focus, .form-control:focus + .fa {
-  border-color: #FF9000;
-  color: #FF9000;
 }
 
 .form-group .fa {
@@ -583,154 +571,11 @@ h1 {
 }
 
 
-
-
-
-
-/*.button:before {
-  border-radius: inherit;
-  background-image: linear-gradient(#F9D423, #FF4E50);
-  content: '';
-  display: block;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  z-index: -1000;
-  transition: opacity 0.45s ease-in-out;
-}
-.button:hover:before {
-  opacity: 1;
-}
-.button:active:before {
-  opacity: 0;
-}*/
-@media all and (min-width: 480px) {
-  .button {
-    font-size: 1.25rem;
-  }
-}
-
-.cool-background {
-  background-size: 100%;
-  background-image: -webkit-linear-gradient(#F9D423, #FF4E50);
-  background-image: linear-gradient(#F9D423, #FF4E50);
-  z-index: 100;
-}
-
-.button {
-  display: inline-block;
-  margin: 0 auto;
-  transform: translateX(-50%);
-
-  -webkit-border-radius: 10px;
-
-  -webkit-box-shadow:
-          0px 3px rgba(128,128,128,1), /* gradient effects */
-          0px 4px rgba(118,118,118,1),
-          0px 5px rgba(108,108,108,1),
-          0px 6px rgba(98,98,98,1),
-          0px 7px rgba(88,88,88,1),
-          0px 8px rgba(78,78,78,1),
-          0px 14px 6px -1px rgba(128,128,128,1); /* shadow */
-
-  -webkit-transition: -webkit-box-shadow .1s ease-in-out;
-}
-
-.button span {
-  background-color: #E8E8E8;
-
-  background-image:
-    /* gloss gradient */
-          -webkit-gradient(
-                  linear,
-                  left bottom,
-                  left top,
-                  color-stop(50%,rgba(255,255,255,0)),
-                  color-stop(50%,rgba(255,255,255,0.3)),
-                  color-stop(100%,rgba(255,255,255,0.2))),
-
-            /* dark outside gradient */
-          -webkit-gradient(
-                  linear,
-                  left top,
-                  right top,
-                  color-stop(0%,rgba(210,210,210,0.3)),
-                  color-stop(20%,rgba(210,210,210,0)),
-                  color-stop(80%,rgba(210,210,210,0)),
-                  color-stop(100%,rgba(210,210,210,0.3))),
-
-            /* light inner gradient */
-          -webkit-gradient(
-                  linear,
-                  left top,
-                  right top,
-                  color-stop(0%,rgba(255,255,255,0)),
-                  color-stop(20%,rgba(255,255,255,0.5)),
-                  color-stop(80%,rgba(255,255,255,0.5)),
-                  color-stop(100%,rgba(255,255,255,0))),
-
-            /* diagonal line pattern */
-          -webkit-gradient(
-                  linear,
-                  0% 100%,
-                  100% 0%,
-                  color-stop(0%,rgba(255,255,255,0)),
-                  color-stop(40%,rgba(255,255,255,0)),
-                  color-stop(40%,#D2D2D1),
-                  color-stop(60%,#D2D2D1),
-                  color-stop(60%,rgba(255,255,255,0)),
-                  color-stop(100%,rgba(255,255,255,0)));
-
-  -webkit-box-shadow:
-          0px -1px #fff, /* top highlight */
-          0px 1px 1px #FFFFFF; /* bottom edge */
-
-  -webkit-background-size: 100%, 100%, 100%, 4px 4px;
-
-  -webkit-border-radius: 10px;
-  -webkit-transition: -webkit-transform .1s ease-in-out;
-
-  display: inline-block;
-  padding: 8px 35px;
-
-  color: #3A474D;
-  text-transform: uppercase;
-  font-family: 'Vibur', cursive;
-  font-weight: 700;
-  font-size: 24px;
-
-  text-shadow: 0px 1px #fff, 0px -1px #262F33;
-}
-
-.button span:hover {
-  color: #FF9000;;
-  text-shadow: 0px -1px #FF9099;
-  cursor: pointer;
-}
-
-.button:active {
-  -webkit-box-shadow:
-          0px 3px rgba(128,128,128,1),
-          0px 4px rgba(118,118,118,1),
-          0px 5px rgba(108,108,108,1),
-          0px 6px rgba(98,98,98,1),
-          0px 7px rgba(88,88,88,1),
-          0px 8px rgba(78,78,78,1),
-          0px 10px 2px 0px rgba(128,128,128,.6); /* shadow */
-}
-
-.button:active span{
-  -webkit-transform: translate(0, 5px); /* depth of button press */
-}
-
 .jumb-desc{
   text-align: center;
+  margin-bottom: 20px;
   margin: 30px auto;
   max-width: 1200px;
-  font-family: 'Vibur', cursive
 }
 
 
@@ -880,6 +725,27 @@ h3 {
 
 .btn.btn-primary:hover {
   background-color: #017fb5;
+}
+
+
+.btn-start {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 40px;
+  border: 1px solid #6e6d6c;
+  border-radius: 4px;
+  margin-top: 25px;
+  transform: translateX(-50%);
+}
+
+.div-start {
+  padding-left: 50%;
+}
+
+.btn-start:hover {
+  color: #fff;
+  background-color: #028fcc;
 }
 
 .navbar-nav li a:hover,
