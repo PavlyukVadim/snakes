@@ -10,7 +10,7 @@
 
             <div class="login-form">
                 <h1>Snakes</h1>
-                <p style="margin-bottom: 10px">Authorization and registration (If user does not exist - it will be created).</p>
+                <p style="margin-bottom: 10px; color: #028fcc;">Authorization and registration (If user does not exist - it will be created).</p>
                 <div *ngIf="!submitted" class="form-group">
                     <input #login type="text" class="form-control" placeholder="Username" id="UserName" (keyup)="onKeyLogin(login.value)">
                     <i class="fa fa-user"></i>

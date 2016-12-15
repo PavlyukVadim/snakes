@@ -91,7 +91,7 @@ ul{
 #maps{
   position: relative;
   width: 700px;
-  top: 0;
+  top: 60px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -399,26 +399,7 @@ nav{
   z-index: 999;
 }
 
-.navbar-default {
-  border-bottom-color: #FF9000;
-}
 
-footer .navbar-default{
-  border-top-color: #FF9000;
-}
-
-.navbar-default .autor {
-  text-align: center;
-  color: #FFF;
-  padding-top: 14px;
-  font-size: 15px;
-  background-color: rgb(252,126,63);
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  height: 100%;
-}
 
 .login-form {
   width: 350px;
@@ -436,6 +417,10 @@ footer .navbar-default{
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
+}
+
+.login-form .container{
+  color: black;
 }
 
 .form-group {
@@ -475,7 +460,7 @@ footer .navbar-default{
 }
 
 .log-btn {
-  background: #FF9000;
+  background: #028fcc;;
   dispaly: inline-block;
   width: 100%;
   font-size: 16px;
@@ -483,9 +468,10 @@ footer .navbar-default{
   color: #fff;
   text-decoration: none;
   border: none;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
+}
+
+.login-form h1{
+  text-align: center;
 }
 
 .link {
@@ -578,26 +564,59 @@ footer .navbar-default{
   max-width: 1200px;
 }
 
-
-@media screen and (min-width:768px) {
-  .jumbotron-mobile{
-    display: none;
-  }
+.navbar-toggle{
+  background-color: #fff;
+  margin-top: 20px;
 }
 
+.navbar-toggle .icon-bar{
+  background-color: #028fcc;;
+}
+
+
 @media screen and (max-width:768px) {
-  .jumbotron{
-    display: none;
-  }
-  .jumbotron-mobile{
+  #mob-menu{
     position: fixed;
-    display: block;
-    padding: 100px 20px;
+    z-index: 1;
+    background-color: #028fcc;
+    width: 100%;
   }
+
+  .navbar-header{
+    height: 80px;
+  }
+
   #sing-in {
     right: 70px;
   }
 }
+
+
+
+
+
+@media screen and (max-width:700px) {
+  #start-form, .div-start{
+    display: none;
+  }
+  .div-download{
+    display: block;
+  }
+  .div-download .btn{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+}
+
+@media screen and (min-width:700px) {
+  .div-download{
+    display: none;
+  }
+}
+
+
 
 #map-exit{
   position: absolute;
