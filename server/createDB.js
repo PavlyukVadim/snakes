@@ -1,6 +1,3 @@
-/**
- * Created by amadev on 25.11.16.
- */
 let mongoose = require('./libs/mongoose');
 let User = require('./models/user').User;
 
