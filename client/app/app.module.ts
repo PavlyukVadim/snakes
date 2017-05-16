@@ -7,19 +7,17 @@ import { StartComponent }  from './start.component';
 import { MapComponent }  from './map.component';
 import { LoginComponent }  from './login.component';
 
-
-
 @NgModule({
   imports: [
-      BrowserModule,
-      HttpModule,
-   ],
+    BrowserModule,
+    HttpModule,
+  ],
   declarations: [
-  	  AppComponent,
-  	  StartComponent,
-  	  MapComponent,
-      LoginComponent
-   ],
-  bootstrap: [ AppComponent ]
+	  AppComponent,
+	  StartComponent,
+	  MapComponent,
+    LoginComponent
+  ],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

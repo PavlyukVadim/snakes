@@ -13,17 +13,17 @@ export class Food {
 
 	draw(ctx: any) {
 		ctx.beginPath();
-	    ctx.fillStyle = this.color;
-	    ctx.arc(this.x, this.y, this.RADIUS, 0, 2 * Math.PI);
-	    ctx.fill();
-	    ctx.closePath();
+    ctx.fillStyle = this.color;
+    ctx.arc(this.x, this.y, this.RADIUS, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.closePath();
 	}
 
 	destroy(ctx: any) { 
 		ctx.beginPath();
-	    ctx.fillStyle = '#fff';
-	    ctx.arc(this.x - 1, this.y - 1, this.RADIUS + 2, 0, 2 * Math.PI);
-	    ctx.fill();
-	    ctx.closePath();
+    ctx.fillStyle = '#fff';
+    ctx.arc(this.x - 1, this.y - 1, this.RADIUS + 2, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.closePath();
 	}
-} 
+}
